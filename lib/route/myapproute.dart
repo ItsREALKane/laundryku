@@ -1,0 +1,30 @@
+import 'package:get/get.dart';
+import 'package:laundryku/login/bindings/login_binding.dart';
+import 'package:laundryku/login/pages/login_page.dart';
+import 'package:laundryku/register/bindings/register_binding.dart';
+import 'package:laundryku/register/pages/register_page.dart';
+import 'package:laundryku/splashScreen/splash_screen.dart';
+
+class MyappRoute {
+  static const splashScreen = '/splash';
+  static const loginPage = '/login';
+  static const registerPage = '/register';
+
+  static final page = [
+    GetPage(
+      name: MyappRoute.splashScreen, 
+      page: () => SplashScreen()),
+    GetPage(
+      name: MyappRoute.loginPage,
+      page: () => LoginPage(),
+      binding: LoginBinding(),
+      transition: Transition.fade, 
+      transitionDuration: Duration(milliseconds: 450)),
+    GetPage(
+      name: MyappRoute.registerPage,
+      page: () => RegisterPage(),
+      binding: RegisterBinding(),
+      transition: Transition.fade, 
+      transitionDuration: Duration(milliseconds: 450))
+  ];
+}
