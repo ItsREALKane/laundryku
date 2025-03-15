@@ -68,6 +68,7 @@ flutter:
     - assets/image/busa.png
     - assets/image/busa2.png
     - assets/image/google.png
+    - assets/image/coba.jpeg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

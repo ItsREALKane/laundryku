@@ -1,0 +1,2 @@
+D:/10. Tugas Akhir PPLG/laundryku-2/android/app/.cxx/Debug/85a5uv32/x86/CMakeFiles/edit_cache.dir
+D:/10. Tugas Akhir PPLG/laundryku-2/android/app/.cxx/Debug/85a5uv32/x86/CMakeFiles/rebuild_cache.dir
