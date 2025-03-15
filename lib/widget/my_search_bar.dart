@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Search extends StatelessWidget {
   const Search({super.key});
@@ -8,12 +9,12 @@ class Search extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SizedBox(
-        width: double.infinity, // Supaya lebar mengikuti parent
-        height: 45, // Tinggi yang tetap
+        width: double.infinity, 
+        height: 45,
         child: TextField(
           decoration: InputDecoration(
             hintText: 'Cari',
-            hintStyle: const TextStyle(
+            hintStyle: GoogleFonts.poppins(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Colors.black54,
@@ -41,7 +42,7 @@ class Search extends StatelessWidget {
               horizontal: 16,
             ),
           ),
-          style: const TextStyle(fontSize: 16, color: Colors.black),
+          style: GoogleFonts.poppins(fontSize: 16, color: Colors.black),
         ),
       ),
     );

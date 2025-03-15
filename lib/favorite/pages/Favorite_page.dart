@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:laundryku/widget/laundry_card.dart';
-
-import 'package:laundryku/widget/search_bar.dart';
-
+import 'package:laundryku/widget/my_laundry_card.dart';
+import 'package:laundryku/widget/my_search_bar.dart';
+import 'package:laundryku/widget/my_text.dart';
 
 class FavoritePage extends StatelessWidget {
   FavoritePage({super.key});
@@ -49,9 +48,12 @@ class FavoritePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Favorit',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            const SizedBox(height: 30),
+            const MyText(
+              text: "Favorit",
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF000000),
             ),
             const SizedBox(height: 12),
             const Search(),
