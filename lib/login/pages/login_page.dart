@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
               'assets/image/busa.png',
               width: 140,
             ),
-          ),       
+          ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -32,18 +32,22 @@ class LoginPage extends StatelessWidget {
                   'assets/image/logo.png',
                   width: 130,
                 ),
-                const MyText(
+                MyText(
                   text: "Welcome Back",
                   fontSize: 25,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF00ADB5),
                 ),
                 SizedBox(height: 20),
-                MyTextField(hintText: "Username", controller: usernameController),
-                MyTextField(hintText: "Password", controller: passwordController),
+                MyTextField(
+                    hintText: "Username", controller: usernameController),
+                MyTextField(
+                    hintText: "Password", controller: passwordController),
                 MyButton(
                   text: "Login",
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed('/navbar');
+                  },
                   color: const Color(0xFF00ADB5),
                 ),
                 SizedBox(height: 20),
@@ -96,7 +100,7 @@ class LoginPage extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF00ADB5),
                       ),
-                    ),  
+                    ),
                   ],
                 ),
               ],
