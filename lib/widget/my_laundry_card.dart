@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laundryku/widget/my_text.dart';
 
 class LaundryCard extends StatelessWidget {
   final LaundryItem laundry;
@@ -16,14 +17,14 @@ class LaundryCard extends StatelessWidget {
             color: Colors.black.withOpacity(0.2),
             blurRadius: 6,
             spreadRadius: 0,
-            offset: const Offset(0, 5), // Shadow only at bottom
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.cyan.shade200,
+          color: Color(0xFF71C9CE),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -44,42 +45,37 @@ class LaundryCard extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 1),
-                    child: Text(
-                      laundry.name,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+                    child: MyText(
+                      text: laundry.name,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 6),
                   Wrap(
                     spacing: 6,
                     runSpacing: 6,
-                    children:
-                        laundry.services
-                            .map(
-                              (service) => Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 5,
-                                  vertical: 1,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.cyan.shade700,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Text(
-                                  service,
-                                  style: const TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
+                    children: laundry.services
+                        .map(
+                          (service) => Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 5,
+                              vertical: 1,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color(0xFF00ADB5),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: MyText(
+                              text: service,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ],
               ),
