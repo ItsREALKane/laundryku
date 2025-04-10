@@ -39,6 +39,9 @@ dependencies:
   http: ^1.2.2
   sqflite: ^2.3.2
   google_fonts: ^6.2.1
+  carousel_slider: ^5.0.0
+  smooth_page_indicator: ^1.2.1
+
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +72,7 @@ flutter:
     - assets/image/busa2.png
     - assets/image/google.png
     - assets/image/coba.jpeg
+    - assets/image/laundrydeterjen.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
