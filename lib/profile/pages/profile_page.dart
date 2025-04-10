@@ -11,17 +11,28 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background with bubble decorations
-          // Main content
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Image.asset(
+              'assets/image/busa2.png',
+              width: 140,
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: Image.asset(
+              'assets/image/busa.png',
+              width: 140,
+            ),
+          ),
           Column(
             children: [
               const SizedBox(height: 100),
-
-              // Profile section
               Center(
                 child: Column(
                   children: [
-                    // Profile picture
                     Container(
                       width: 100,
                       height: 100,
@@ -35,26 +46,19 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // User name - Using MyText
                     const MyText(
                       text: 'User',
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
                     ),
-
-                    // User email - Using MyText
                     const MyText(
                       text: 'user@gmail.com',
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
                       color: Colors.black54,
                     ),
-
                     const SizedBox(height: 16),
-
-                    // Edit profile button - Using MyButton
                     MyButton(
                       text: 'Edit Profil',
                       onPressed: () {
@@ -65,10 +69,7 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 30),
-
-              // Menu options
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 50),
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -79,25 +80,18 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    // My Orders - using reusable MenuItem
                     MenuItem(
                       icon: Icons.receipt_outlined,
                       text: 'Pesanan Saya',
                       onTap: () {},
                     ),
-
                     const Divider(height: 1),
-
-                    // Order History - using reusable MenuItem
                     MenuItem(
                       icon: Icons.history,
                       text: 'Riwayat Pesanan',
                       onTap: () {},
                     ),
-
                     const Divider(height: 1),
-
-                    // Settings - using reusable MenuItem
                     MenuItem(
                       icon: Icons.settings,
                       text: 'Pengaturan',

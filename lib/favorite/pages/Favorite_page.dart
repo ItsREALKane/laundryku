@@ -43,31 +43,51 @@ class FavoritePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 30),
-            const MyText(
-              text: "Favorit",
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF000000),
+      body: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Image.asset(
+              'assets/image/busa2.png',
+              width: 140,
             ),
-            const SizedBox(height: 12),
-            const Search(),
-            const SizedBox(height: 12),
-            Expanded(
-              child: ListView.builder(
-                itemCount: favoriteItems.length,
-                itemBuilder: (context, index) {
-                  return LaundryCard(laundry: favoriteItems[index]);
-                },
-              ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: Image.asset(
+              'assets/image/busa.png',
+              width: 140,
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 30),
+                const MyText(
+                  text: "Favorit",
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF000000),
+                ),
+                const SizedBox(height: 12),
+                const Search(),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: favoriteItems.length,
+                    itemBuilder: (context, index) {
+                      return LaundryCard(laundry: favoriteItems[index]);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

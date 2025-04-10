@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laundryku/favorite/pages/Favorite_page.dart';
+import 'package:laundryku/home/pages/home_page.dart';
 import 'package:laundryku/navbar/bottom_nav_controller.dart';
 import 'package:laundryku/profile/pages/profile_page.dart';
 
@@ -15,6 +16,7 @@ class _NavbarPageState extends State<BottomNavBarPage> {
   final BottomNavController navbarController = Get.find<BottomNavController>();
 
   final List<Widget> _menus = [
+    HomePage(),
     FavoritePage(),
     ProfilePage(),
   ];

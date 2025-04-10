@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:laundryku/favorite/bindings/favorite_binding.dart';
 import 'package:laundryku/favorite/pages/favorite_page.dart';
+import 'package:laundryku/home/bindings/home_binding.dart';
+import 'package:laundryku/home/pages/home_page.dart';
 import 'package:laundryku/login/bindings/login_binding.dart';
 import 'package:laundryku/login/pages/login_page.dart';
 import 'package:laundryku/navbar/bottom_nav_bar_page.dart';
@@ -18,6 +20,7 @@ class MyappRoute {
   static const loginPage = '/login';
   static const registerPage = '/register';
   static const navbar = '/navbar';
+  static const homePage = '/home';
   static const favoritePage = '/favorite';
   static const profilePage = '/profile';
   static const settingProfilePage = '/settingProfile';
@@ -41,6 +44,12 @@ class MyappRoute {
         name: MyappRoute.navbar,
         page: () => BottomNavBarPage(),
         binding: NavbarBinding(),
+        transition: Transition.fade,
+        transitionDuration: Duration(milliseconds: 450)),
+    GetPage(
+        name: MyappRoute.homePage,
+        page: () => HomePage(),
+        binding: HomeBinding(),
         transition: Transition.fade,
         transitionDuration: Duration(milliseconds: 450)),
     GetPage(
