@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:laundryku/favorite/pages/Favorite_page.dart';
 import 'package:laundryku/home/pages/home_page.dart';
 import 'package:laundryku/navbar/bottom_nav_controller.dart';
+import 'package:laundryku/pesan/pages/pesan_page.dart';
 import 'package:laundryku/profile/pages/profile_page.dart';
 
 class BottomNavBarPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _NavbarPageState extends State<BottomNavBarPage> {
   final List<Widget> _menus = [
     HomePage(),
     FavoritePage(),
+    PesanPage(),
     ProfilePage(),
   ];
 
