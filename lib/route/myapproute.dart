@@ -5,8 +5,10 @@ import 'package:laundryku/login/bindings/login_binding.dart';
 import 'package:laundryku/login/pages/login_page.dart';
 import 'package:laundryku/navbar/bottom_nav_bar_page.dart';
 import 'package:laundryku/navbar/navbar_binding.dart';
+import 'package:laundryku/order/order/pages/order_page.dart';
 import 'package:laundryku/profile/bindings/profile_binding.dart';
 import 'package:laundryku/profile/pages/edit_page.dart';
+import 'package:laundryku/order/orderhistory/pages/order_history_page.dart';
 import 'package:laundryku/profile/pages/profile_page.dart';
 import 'package:laundryku/profile/pages/setting_page.dart';
 import 'package:laundryku/register/bindings/register_binding.dart';
@@ -22,9 +24,13 @@ class MyappRoute {
   static const profilePage = '/profile';
   static const settingProfilePage = '/settingProfile';
   static const editProfilePage = '/editProfile';
+  static const orderhistoryPage = '/orderHistory';
+  static const orderPage = '/order';
 
   static final page = [
     GetPage(name: MyappRoute.splashScreen, page: () => SplashScreen()),
+
+    //Login
     GetPage(
         name: MyappRoute.loginPage,
         page: () => LoginPage(),
@@ -43,12 +49,16 @@ class MyappRoute {
         binding: NavbarBinding(),
         transition: Transition.fade,
         transitionDuration: Duration(milliseconds: 450)),
+
+    //favorite
     GetPage(
         name: MyappRoute.favoritePage,
         page: () => FavoritePage(),
         binding: FavoriteBinding(),
         transition: Transition.fade,
         transitionDuration: Duration(milliseconds: 450)),
+
+    //profile
     GetPage(
         name: MyappRoute.profilePage,
         page: () => ProfilePage(),
@@ -63,6 +73,18 @@ class MyappRoute {
     GetPage(
         name: MyappRoute.editProfilePage,
         page: () => EditProfilePage(),
+        transition: Transition.native,
+        transitionDuration: Duration(milliseconds: 450)),
+
+    //order
+    GetPage(
+        name: MyappRoute.orderPage,
+        page: () => OrderPage(),
+        transition: Transition.native,
+        transitionDuration: Duration(milliseconds: 450)),
+    GetPage(
+        name: MyappRoute.orderhistoryPage,
+        page: () => OrderHistoryPage(),
         transition: Transition.native,
         transitionDuration: Duration(milliseconds: 450)),
   ];

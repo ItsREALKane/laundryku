@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:laundryku/widget/my_text.dart';
 
-class LaundryCard extends StatelessWidget {
+class MyLaundryCard extends StatelessWidget {
   final LaundryItem laundry;
 
-  const LaundryCard({super.key, required this.laundry});
+  const MyLaundryCard({super.key, required this.laundry});
 
   @override
   Widget build(BuildContext context) {

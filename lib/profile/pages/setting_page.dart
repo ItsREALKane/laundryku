@@ -16,17 +16,17 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         child: Column(
           children: [
-            // App bar with back button
             Padding(
               padding: const EdgeInsets.only(top: 40, left: 16),
               child: Row(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Get.back(); // Go back to previous screen using GetX
+                      Get.back();
                     },
                     child: Row(
                       children: [
@@ -44,10 +44,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
-
-            // Settings Container
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               padding: const EdgeInsets.all(20),
@@ -57,7 +54,6 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
               ),
               child: Column(
                 children: [
-                  // Dark Mode Toggle
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -79,10 +75,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 20),
-
-                  // Notification Toggle
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

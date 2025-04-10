@@ -25,13 +25,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Main content
           SafeArea(
             child: Column(
               children: [
-                // Back button
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0, top: 8.0),
                   child: Align(
@@ -45,7 +44,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         children: [
                           Icon(Icons.arrow_back_ios, size: 16),
                           MyText(
-                            text: 'Back',
+                            text: 'kembali',
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
@@ -55,24 +54,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
-                // Profile image
                 const CircleAvatar(
                   radius: 50,
                   backgroundImage: AssetImage('assets/image/coba.jpeg'),
                 ),
-
                 const SizedBox(height: 10),
-
                 SizedBox(
                   width: 110,
                   height: 35,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Photo selection logic
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF00ADB5),
                       foregroundColor: Colors.white,
@@ -83,10 +75,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child: const Text('Pilih Foto'),
                   ),
                 ),
-
                 const SizedBox(height: 30),
-
-                // Username field
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -105,10 +94,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 15),
-
-                // Phone number field
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -127,21 +113,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ],
                 ),
-
                 const Spacer(),
-
-                // Save button
                 MyButton(
                   text: 'SIMPAN',
                   onPressed: () {
-                    // Save profile logic
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Profil berhasil disimpan')),
                     );
                   },
                   color: const Color(0xFF00ADB5),
                 ),
-
                 const SizedBox(height: 30),
               ],
             ),
