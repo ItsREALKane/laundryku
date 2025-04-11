@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundryku/profile/controller/profile_controller.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_menu_item.dart';
 import 'package:laundryku/widget/my_text.dart';
@@ -9,24 +8,9 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Image.asset(
-              'assets/image/busa2.png',
-              width: 140,
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: Image.asset(
-              'assets/image/busa.png',
-              width: 140,
-            ),
-          ),
           Column(
             children: [
               const SizedBox(height: 100),
@@ -83,13 +67,17 @@ class ProfilePage extends StatelessWidget {
                     MenuItem(
                       icon: Icons.receipt_outlined,
                       text: 'Pesanan Saya',
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed("/order");
+                      },
                     ),
                     const Divider(height: 1),
                     MenuItem(
                       icon: Icons.history,
                       text: 'Riwayat Pesanan',
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed("/orderHistory");
+                      },
                     ),
                     const Divider(height: 1),
                     MenuItem(

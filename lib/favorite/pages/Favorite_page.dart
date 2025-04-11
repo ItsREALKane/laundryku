@@ -80,7 +80,7 @@ class FavoritePage extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: favoriteItems.length,
                     itemBuilder: (context, index) {
-                      return LaundryCard(laundry: favoriteItems[index]);
+                      return MyLaundryCard(laundry: favoriteItems[index]);
                     },
                   ),
                 ),
