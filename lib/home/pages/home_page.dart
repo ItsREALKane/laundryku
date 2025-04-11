@@ -61,7 +61,11 @@ class HomePage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                HomeQuickButton(icon: Icons.dry_cleaning, onTap: () {}),
+                HomeQuickButton(
+                    icon: Icons.dry_cleaning,
+                    onTap: () {
+                      Get.toNamed("/laundryList");
+                    }),
                 HomeQuickButton(icon: Icons.access_time, onTap: () {}),
                 HomeQuickButton(icon: Icons.event_note_rounded, onTap: () {}),
               ],

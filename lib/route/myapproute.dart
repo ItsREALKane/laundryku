@@ -3,6 +3,8 @@ import 'package:laundryku/favorite/bindings/favorite_binding.dart';
 import 'package:laundryku/favorite/pages/favorite_page.dart';
 import 'package:laundryku/home/bindings/home_binding.dart';
 import 'package:laundryku/home/pages/home_page.dart';
+import 'package:laundryku/laundry/laundryList/bindings/laundry_list_binding.dart';
+import 'package:laundryku/laundry/laundryList/pages/laundry_list_page.dart';
 import 'package:laundryku/login/bindings/login_binding.dart';
 import 'package:laundryku/login/pages/login_page.dart';
 import 'package:laundryku/navbar/bottom_nav_bar_page.dart';
@@ -20,16 +22,31 @@ import 'package:laundryku/register/pages/register_page.dart';
 import 'package:laundryku/splashScreen/splash_screen.dart';
 
 class MyappRoute {
+  //Login
   static const splashScreen = '/splash';
   static const loginPage = '/login';
   static const registerPage = '/register';
   static const navbar = '/navbar';
+
+  //home
   static const homePage = '/home';
+
+  //laundry
+  static const laundryListPage = '/laundryList';
+  static const laundryDetailPage = '/laundryDetail';
+
+  //favorite
   static const favoritePage = '/favorite';
+
+  //pesan
   static const pesanPage = '/pesan';
+
+  //profile
   static const profilePage = '/profile';
   static const settingProfilePage = '/settingProfile';
   static const editProfilePage = '/editProfile';
+
+  //order
   static const orderhistoryPage = '/orderHistory';
   static const orderPage = '/order';
 
@@ -61,6 +78,14 @@ class MyappRoute {
         page: () => HomePage(),
         binding: HomeBinding(),
         transition: Transition.fade,
+        transitionDuration: Duration(milliseconds: 450)),
+
+    //laundry
+    GetPage(
+        name: MyappRoute.laundryListPage,
+        page: () => LaundryListPage(),
+        binding: LaundryListBinding(),
+        transition: Transition.native,
         transitionDuration: Duration(milliseconds: 450)),
 
     //favorite
