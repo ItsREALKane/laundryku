@@ -46,7 +46,7 @@ class ProfilePage extends StatelessWidget {
                     MyButton(
                       text: 'Edit Profil',
                       onPressed: () {
-                        Get.toNamed("/editProfile");
+                        Get.toNamed("/profileEdit");
                       },
                       color: const Color(0xFF00ADB5),
                     ),
@@ -84,7 +84,7 @@ class ProfilePage extends StatelessWidget {
                       icon: Icons.settings,
                       text: 'Pengaturan',
                       onTap: () {
-                        Get.toNamed("/settingProfile");
+                        Get.toNamed("/profileSetting");
                       },
                     ),
                   ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundryku/register/controller/register_controller.dart';
+import 'package:laundryku/register/controllers/register_controller.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_text.dart';
 import 'package:laundryku/widget/my_text_field.dart';

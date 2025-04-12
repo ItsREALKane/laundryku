@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundryku/route/myapproute.dart';
+import 'package:laundryku/route/my_app_route.dart';
 
 void main() {
   runApp(const MyApp());

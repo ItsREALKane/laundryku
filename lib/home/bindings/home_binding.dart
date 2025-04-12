@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:laundryku/home/controller/home_controller.dart';
+import 'package:laundryku/home/controllers/home_controller.dart';
 
 
 class HomeBinding extends Bindings {

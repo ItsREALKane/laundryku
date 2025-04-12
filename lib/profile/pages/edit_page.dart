@@ -4,14 +4,14 @@ import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_text.dart';
 import 'package:laundryku/widget/my_text_field.dart';
 
-class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key});
+class ProfileEditPage extends StatefulWidget {
+  const ProfileEditPage({super.key});
 
   @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
+  State<ProfileEditPage> createState() => _ProfileEditPageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _ProfileEditPageState extends State<ProfileEditPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 

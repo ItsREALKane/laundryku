@@ -8,9 +8,9 @@ import 'package:laundryku/laundry/laundryList/pages/laundry_list_page.dart';
 import 'package:laundryku/login/bindings/login_binding.dart';
 import 'package:laundryku/login/pages/login_page.dart';
 import 'package:laundryku/navbar/bottom_nav_bar_page.dart';
-import 'package:laundryku/navbar/navbar_binding.dart';
+import 'package:laundryku/navbar/bottom_nav_binding.dart';
 import 'package:laundryku/order/order/pages/order_page.dart';
-import 'package:laundryku/order/orderhistory/pages/order_history_page.dart';
+import 'package:laundryku/order/orderHistory/pages/order_history_page.dart';
 import 'package:laundryku/pesan/bindings/pesan_binding.dart';
 import 'package:laundryku/pesan/pages/pesan_page.dart';
 import 'package:laundryku/profile/bindings/profile_binding.dart';
@@ -43,8 +43,8 @@ class MyappRoute {
 
   //profile
   static const profilePage = '/profile';
-  static const settingProfilePage = '/settingProfile';
-  static const editProfilePage = '/editProfile';
+  static const profileSettingPage = '/profileSetting';
+  static const profileEditPage = '/profileEdit';
 
   //order
   static const orderhistoryPage = '/orderHistory';
@@ -112,13 +112,13 @@ class MyappRoute {
         transition: Transition.fade,
         transitionDuration: Duration(milliseconds: 450)),
     GetPage(
-        name: MyappRoute.settingProfilePage,
-        page: () => SettingProfilePage(),
+        name: MyappRoute.profileSettingPage,
+        page: () => ProfileSettingPage(),
         transition: Transition.native,
         transitionDuration: Duration(milliseconds: 450)),
     GetPage(
-        name: MyappRoute.editProfilePage,
-        page: () => EditProfilePage(),
+        name: MyappRoute.profileEditPage,
+        page: () => ProfileEditPage(),
         transition: Transition.native,
         transitionDuration: Duration(milliseconds: 450)),
 

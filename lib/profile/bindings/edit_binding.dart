@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:laundryku/profile/controller/edit_controller.dart';
+import 'package:laundryku/profile/controllers/edit_controller.dart';
 
 class EditBinding extends Bindings {
   @override
