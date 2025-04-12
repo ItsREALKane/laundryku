@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:laundryku/widget/home_quick_button.dart';
+import 'package:laundryku/widget/my_home_quick_button.dart';
 import 'package:laundryku/widget/my_image_slider.dart';
 
 import 'package:laundryku/widget/my_text.dart';

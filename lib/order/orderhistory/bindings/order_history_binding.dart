@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:laundryku/order/orderhistory/controller/order_history_controller.dart';
+import 'package:laundryku/order/orderHistory/controllers/order_history_controller.dart';
 
 class OrderHistoryBinding extends Bindings {
   @override

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laundryku/widget/my_text.dart';
 
-class SettingProfilePage extends StatefulWidget {
-  const SettingProfilePage({super.key});
+class ProfileSettingPage extends StatefulWidget {
+  const ProfileSettingPage({super.key});
 
   @override
-  State<SettingProfilePage> createState() => _SettingProfilePageState();
+  State<ProfileSettingPage> createState() => _ProfileSettingPageState();
 }
 
-class _SettingProfilePageState extends State<SettingProfilePage> {
+class _ProfileSettingPageState extends State<ProfileSettingPage> {
   bool isDarkMode = false;
   bool isNotificationEnabled = false;
 
