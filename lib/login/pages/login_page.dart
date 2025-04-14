@@ -49,6 +49,11 @@ class LoginPage extends StatelessWidget {
                     Get.toNamed('/navbar');
                   },
                   color: const Color(0xFF00ADB5),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  height: 50,
+                  width: 400,
+                  borderRadius: 30,
                 ),
                 SizedBox(height: 20),
                 Row(

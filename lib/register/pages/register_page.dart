@@ -60,6 +60,10 @@ class RegisterPage extends StatelessWidget {
                     text: "Sign Up",
                     onPressed: () {},
                     color: const Color(0xFF00ADB5),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    height: 50,
+                    width: 400,
                   ),
                   SizedBox(height: 20),
                   Row(
