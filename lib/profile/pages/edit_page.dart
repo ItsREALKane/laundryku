@@ -60,20 +60,14 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   backgroundImage: AssetImage('assets/image/coba.jpeg'),
                 ),
                 const SizedBox(height: 10),
-                SizedBox(
-                  width: 110,
-                  height: 35,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF00ADB5),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: const Text('Pilih Foto'),
-                  ),
+                MyButton(
+                  text: 'Pilih Foto',
+                  onPressed: () {},
+                  color: const Color(0xFF00ADB5),
+                  width: 120,
+                  height: 36,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
                 ),
                 const SizedBox(height: 30),
                 Column(
@@ -122,7 +116,11 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                     );
                   },
                   color: const Color(0xFF00ADB5),
-                ),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  height: 50,
+                  width: 400,
+                  ),
                 const SizedBox(height: 30),
               ],
             ),

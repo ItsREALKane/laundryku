@@ -42,13 +42,16 @@ class ProfilePage extends StatelessWidget {
                       fontWeight: FontWeight.normal,
                       color: Colors.black54,
                     ),
-                    const SizedBox(height: 16),
                     MyButton(
                       text: 'Edit Profil',
                       onPressed: () {
                         Get.toNamed("/profileEdit");
                       },
                       color: const Color(0xFF00ADB5),
+                      width: 120,
+                      height: 36,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
                     ),
                   ],
                 ),
