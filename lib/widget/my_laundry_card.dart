@@ -52,6 +52,12 @@ class MyLaundryCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
+                  MyText(
+                    text: laundry.totalTagihan ?? "Total Tagihan: Rp. 0",
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
                   const SizedBox(height: 6),
                   Wrap(
                     spacing: 6,
@@ -90,11 +96,13 @@ class MyLaundryCard extends StatelessWidget {
 class LaundryItem {
   final String imageUrl;
   final String name;
+  final String? totalTagihan;
   final List<String> services;
 
   LaundryItem({
     required this.imageUrl,
     required this.name,
-    required this.services,
+    this.totalTagihan,
+    this.services = const [],
   });
 }

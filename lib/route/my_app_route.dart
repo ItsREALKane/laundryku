@@ -20,6 +20,8 @@ import 'package:laundryku/profile/pages/setting_page.dart';
 import 'package:laundryku/register/bindings/register_binding.dart';
 import 'package:laundryku/register/pages/register_page.dart';
 import 'package:laundryku/splashScreen/splash_screen.dart';
+import 'package:laundryku/tagihan/bindings/tagihan_binding.dart';
+import 'package:laundryku/tagihan/pages/tagihan_page.dart';
 
 class MyappRoute {
   //Login
@@ -34,6 +36,9 @@ class MyappRoute {
   //laundry
   static const laundryListPage = '/laundryList';
   static const laundryDetailPage = '/laundryDetail';
+
+  //tagihan
+  static const tagihanPage = '/tagihan';
 
   //favorite
   static const favoritePage = '/favorite';
@@ -85,6 +90,14 @@ class MyappRoute {
         name: MyappRoute.laundryListPage,
         page: () => LaundryListPage(),
         binding: LaundryListBinding(),
+        transition: Transition.native,
+        transitionDuration: Duration(milliseconds: 450)),
+
+    //tagihan
+    GetPage(
+        name: MyappRoute.tagihanPage,
+        page: () => TagihanPage(),
+        binding: TagihanBinding(),
         transition: Transition.native,
         transitionDuration: Duration(milliseconds: 450)),
 
