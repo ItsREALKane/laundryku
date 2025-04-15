@@ -96,7 +96,10 @@ class HomePage extends StatelessWidget {
                           }),
                       HomeQuickButton(icon: Icons.access_time, onTap: () {}),
                       HomeQuickButton(
-                          icon: Icons.event_note_rounded, onTap: () {}),
+                          icon: Icons.event_note_rounded,
+                          onTap: () {
+                            Get.toNamed('/tagihan');
+                          }),
                     ],
                   ),
                   const SizedBox(height: 24),
