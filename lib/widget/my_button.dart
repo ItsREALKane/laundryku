@@ -1,4 +1,3 @@
-// Enhanced MyButton component using MyText
 import 'package:flutter/material.dart';
 import 'package:laundryku/widget/my_text.dart';
 
@@ -21,6 +20,7 @@ class MyButton extends StatelessWidget {
   final TextAlign? textAlign;
   final double? elevation;
   final bool useMyText;
+  final Border? border; 
 
   const MyButton({
     Key? key,
@@ -42,6 +42,7 @@ class MyButton extends StatelessWidget {
     this.textAlign,
     this.elevation,
     this.useMyText = true,
+    this.border,
   }) : super(key: key);
 
   @override
@@ -52,24 +53,58 @@ class MyButton extends StatelessWidget {
       child: SizedBox(
         height: height,
         width: width,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: color,
-            foregroundColor: textColor,
+        child:
+            border != null ? _buildButtonWithBorder() : _buildRegularButton(),
+      ),
+    );
+  }
+
+  Widget _buildRegularButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        foregroundColor: textColor,
+        padding: padding ?? const EdgeInsets.symmetric(vertical: 10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        elevation: elevation,
+      ),
+      onPressed: isLoading ? null : onPressed,
+      child: isLoading
+          ? SizedBox(
+              height: 24,
+              width: 24,
+              child: CircularProgressIndicator(color: loadingColor),
+            )
+          : _buildButtonContent(),
+    );
+  }
+
+  Widget _buildButtonWithBorder() {
+    return Container(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: border,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(borderRadius),
+          onTap: isLoading ? null : onPressed,
+          child: Padding(
             padding: padding ?? const EdgeInsets.symmetric(vertical: 10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-            ),
-            elevation: elevation,
+            child: isLoading
+                ? Center(
+                    child: SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(color: loadingColor),
+                    ),
+                  )
+                : _buildButtonContent(),
           ),
-          onPressed: isLoading ? null : onPressed,
-          child: isLoading
-              ? SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: CircularProgressIndicator(color: loadingColor),
-                )
-              : _buildButtonContent(),
         ),
       ),
     );
@@ -109,8 +144,8 @@ class MyButton extends StatelessWidget {
             ]
           : [
               icon!,
-              SizedBox(width: 8),
-              Flexible(child: textWidget),
+              SizedBox(width: text.isEmpty ? 0 : 8),
+              if (text.isNotEmpty) Flexible(child: textWidget),
             ],
     );
   }

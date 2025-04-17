@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:laundryku/route/my_app_route.dart';
 import 'package:laundryku/widget/my_laundry_card.dart';
 import 'package:laundryku/widget/my_search_bar.dart';
 import 'package:laundryku/widget/my_text.dart';
@@ -80,7 +82,12 @@ class FavoritePage extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: favoriteItems.length,
                     itemBuilder: (context, index) {
-                      return MyLaundryCard(laundry: favoriteItems[index]);
+                      return MyLaundryCard(
+                        laundry: favoriteItems[index],
+                        onTap: () {
+                          Get.toNamed(MyappRoute.laundryDetailPage);
+                        },
+                      );
                     },
                   ),
                 ),
