@@ -7,6 +7,8 @@ import 'package:laundryku/widget/my_laundry_card.dart';
 
 import 'package:laundryku/widget/my_text.dart';
 
+import '../../route/my_app_route.dart';
+
 final List<LaundryItem> nearbyLaundry = [
   LaundryItem(
     imageUrl:
@@ -98,7 +100,7 @@ class HomePage extends StatelessWidget {
                       HomeQuickButton(
                           icon: Icons.event_note_rounded,
                           onTap: () {
-                            Get.toNamed('/tagihan');
+                            Get.toNamed(MyappRoute.tagihanPage);
                           }),
                     ],
                   ),
@@ -138,7 +140,12 @@ class HomePage extends StatelessWidget {
                         const SizedBox(height: 16),
                         Column(
                           children: nearbyLaundry
-                              .map((laundry) => MyLaundryCard(laundry: laundry))
+                              .map((laundry) => MyLaundryCard(
+                                    laundry: laundry,
+                                    onTap: () {
+                                      Get.toNamed(MyappRoute.laundryDetailPage);
+                                    },
+                                  ))
                               .toList(),
                         ),
                       ],

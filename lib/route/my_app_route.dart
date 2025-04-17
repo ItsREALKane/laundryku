@@ -3,6 +3,8 @@ import 'package:laundryku/favorite/bindings/favorite_binding.dart';
 import 'package:laundryku/favorite/pages/favorite_page.dart';
 import 'package:laundryku/home/bindings/home_binding.dart';
 import 'package:laundryku/home/pages/home_page.dart';
+import 'package:laundryku/laundry/laundryDetail/bindings/laundry_details_binding.dart';
+import 'package:laundryku/laundry/laundryDetail/pages/laundry_details_page.dart';
 import 'package:laundryku/laundry/laundryList/bindings/laundry_list_binding.dart';
 import 'package:laundryku/laundry/laundryList/pages/laundry_list_page.dart';
 import 'package:laundryku/login/bindings/login_binding.dart';
@@ -90,6 +92,13 @@ class MyappRoute {
         name: MyappRoute.laundryListPage,
         page: () => LaundryListPage(),
         binding: LaundryListBinding(),
+        transition: Transition.native,
+        transitionDuration: Duration(milliseconds: 450)),
+
+    GetPage(
+        name: MyappRoute.laundryDetailPage,
+        page: () => LaundryDetailsPage(),
+        binding: LaundryDetailsBinding(),
         transition: Transition.native,
         transitionDuration: Duration(milliseconds: 450)),
 
