@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryku/widget/my_text.dart';
-import 'package:laundryku/widget/my_button.dart';
 
 class MyDetailsLaundryTextfield extends StatelessWidget {
   final String hintText;

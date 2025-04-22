@@ -12,6 +12,7 @@ import 'package:laundryku/login/pages/login_page.dart';
 import 'package:laundryku/navbar/bottom_nav_bar_page.dart';
 import 'package:laundryku/navbar/bottom_nav_binding.dart';
 import 'package:laundryku/order/order/pages/order_page.dart';
+import 'package:laundryku/order/orderDetail/pages/order_detail_page.dart';
 import 'package:laundryku/order/orderHistory/pages/order_history_page.dart';
 import 'package:laundryku/pesan/bindings/pesan_binding.dart';
 import 'package:laundryku/pesan/pages/pesan_page.dart';
@@ -56,6 +57,7 @@ class MyappRoute {
   //order
   static const orderhistoryPage = '/orderHistory';
   static const orderPage = '/order';
+  static const orderDetailPage = '/orderDetail';
 
   static final page = [
     GetPage(name: MyappRoute.splashScreen, page: () => SplashScreen()),
@@ -153,6 +155,11 @@ class MyappRoute {
     GetPage(
         name: MyappRoute.orderhistoryPage,
         page: () => OrderHistoryPage(),
+        transition: Transition.native,
+        transitionDuration: Duration(milliseconds: 450)),
+    GetPage(
+        name: MyappRoute.orderDetailPage,
+        page: () => OrderDetailPage(),
         transition: Transition.native,
         transitionDuration: Duration(milliseconds: 450)),
   ];
