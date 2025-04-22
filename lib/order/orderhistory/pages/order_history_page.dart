@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundryku/widget/my_order_card.dart';
 import 'package:laundryku/widget/my_order_history_card.dart';
 import 'package:laundryku/widget/my_search_bar.dart';
 import 'package:laundryku/widget/my_text.dart';

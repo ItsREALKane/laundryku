@@ -31,7 +31,6 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          // Fixed background image
           Container(
             height: imageHeight,
             width: double.infinity,
@@ -41,14 +40,11 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
             ),
           ),
 
-          // Scrollable content
           SingleChildScrollView(
             child: Column(
               children: [
-                // Spacer to push content down to show background image
                 SizedBox(height: imageHeight - 10),
 
-                // Main content with white background
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -70,10 +66,8 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
                       ),
                       child: Column(
                         children: [
-                          // Space for the card
                           SizedBox(height: cardHeight / 2 + 20),
 
-                          // Content
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                             child: Column(
@@ -134,7 +128,7 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
                                 ),
                                 const SizedBox(
                                     height:
-                                        120), // Extra space for bottom buttons
+                                        120), 
                               ],
                             ),
                           ),
@@ -142,7 +136,6 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
                       ),
                     ),
 
-                    // Laundry info card - positioned to overlap white container and background
                     Positioned(
                       top: -cardHeight / 3,
                       left: 60,
@@ -168,7 +161,6 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
             ),
           ),
 
-          // Back button - fixed at top
           Positioned(
             top: MediaQuery.of(context).padding.top + 10,
             left: 10,
@@ -186,7 +178,6 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
             ),
           ),
 
-          // Bottom buttons - fixed at bottom
           Positioned(
             bottom: 0,
             left: 0,

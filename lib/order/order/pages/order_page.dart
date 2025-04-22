@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundryku/route/my_app_route.dart';
 import 'package:laundryku/widget/my_order_card.dart';
 import 'package:laundryku/widget/my_search_bar.dart';
 import 'package:laundryku/widget/my_text.dart';
@@ -84,6 +85,9 @@ class OrderPage extends StatelessWidget {
                       orderDate: orders[index].orderDate,
                       imagePath: orders[index].imagePath,
                       actionIcon: orders[index].actionIcon,
+                      onTap: () {
+                        Get.toNamed(MyappRoute.orderDetailPage);
+                      },
                     );
                   },
                 ),
