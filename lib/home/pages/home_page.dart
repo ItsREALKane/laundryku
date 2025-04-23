@@ -141,6 +141,7 @@ class HomePage extends StatelessWidget {
                         Column(
                           children: nearbyLaundry
                               .map((laundry) => MyLaundryCard(
+                                  nama: post.nama,
                                     laundry: laundry,
                                     onTap: () {
                                       Get.toNamed(MyappRoute.laundryDetailPage);

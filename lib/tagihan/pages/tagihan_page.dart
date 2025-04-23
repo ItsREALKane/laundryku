@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundryku/data/PostController.dart';
 import 'package:laundryku/widget/my_laundry_card.dart';
 import 'package:laundryku/widget/my_search_bar.dart';
 import 'package:laundryku/widget/my_text.dart';
 
 class TagihanPage extends StatelessWidget {
   TagihanPage({super.key});
+  final PostController postController = Get.put(PostController());
 
   final List<LaundryItem> favoriteItems = [
     LaundryItem(
@@ -71,11 +73,15 @@ class TagihanPage extends StatelessWidget {
                 const SizedBox(height: 12),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: favoriteItems.length,
-                    itemBuilder: (context, index) {
-                      return MyLaundryCard(laundry: favoriteItems[index]);
-                    },
-                  ),
+                  itemCount: postController.postList.length,
+                  itemBuilder: (context, index) {
+                    final post = postController.postList[index];
+                    return MyLaundryCard(
+                      laundry: favoriteItems[index],
+                      nama: post.nama,
+                    );
+                  },
+                ),
                 ),
               ],
             ),

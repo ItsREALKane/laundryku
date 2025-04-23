@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundryku/data/PostController.dart';
 import 'package:laundryku/widget/my_category_dropDown.dart';
 import 'package:laundryku/widget/my_laundry_card.dart';
 import 'package:laundryku/widget/my_search_bar.dart';
 import 'package:laundryku/widget/my_text.dart';
 
 class LaundryListPage extends StatefulWidget {
-  const LaundryListPage({super.key});
+  LaundryListPage({super.key});
 
   @override
   State<LaundryListPage> createState() => _LaundryListPageState();
 }
 
 class _LaundryListPageState extends State<LaundryListPage> {
+  final PostController postController = Get.put(PostController());
+
   String selectedCategory = 'Category';
   List<LaundryItem> filteredItems = [];
   final List<String> categories = [
@@ -119,9 +122,13 @@ class _LaundryListPageState extends State<LaundryListPage> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: filteredItems.length,
+                  itemCount: postController.postList.length,
                   itemBuilder: (context, index) {
-                    return MyLaundryCard(laundry: filteredItems[index]);
+                    final post = postController.postList[index];
+                    return MyLaundryCard(
+                      laundry: filteredItems[index],
+                      nama: post.nama,
+                    );
                   },
                 ),
               ),

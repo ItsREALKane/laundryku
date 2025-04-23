@@ -3,12 +3,14 @@ import 'package:laundryku/widget/my_text.dart';
 
 class MyLaundryCard extends StatelessWidget {
   final LaundryItem laundry;
+  final String nama;
   final VoidCallback? onTap;
 
   const MyLaundryCard({
     super.key,
     required this.laundry,
     this.onTap,
+    required this.nama,
   });
 
   @override
@@ -51,7 +53,7 @@ class MyLaundryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyText(
-                      text: laundry.name,
+                      text: nama,
                       fontSize: 22,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
