@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:laundryku/data/Laundry.dart';
-import 'package:laundryku/data/apiService.dart';
+import 'package:laundryku/data/model/laundry.dart';
+import 'package:laundryku/data/service/API_service.dart';
 
 class PostController extends GetxController {
   var isLoading = true.obs;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundryku/data/PostController.dart';
+import 'package:laundryku/data/post_controller.dart';
+import 'package:laundryku/favorite/controllers/favorite_controller.dart';
 import 'package:laundryku/route/my_app_route.dart';
 import 'package:laundryku/widget/my_laundry_card.dart';
 import 'package:laundryku/widget/my_search_bar.dart';
@@ -9,39 +10,7 @@ import 'package:laundryku/widget/my_text.dart';
 class FavoritePage extends StatelessWidget {
   FavoritePage({super.key});
   final PostController postController = Get.put(PostController());
-
-  final List<LaundryItem> favoriteItems = [
-    LaundryItem(
-      imageUrl:
-          'https://i.pinimg.com/736x/3a/5c/53/3a5c53166f8b0d3e479f251659032234.jpg',
-      name: 'Bening Laundry',
-      services: [
-        'Cuci Pakaian',
-        'Cuci Sprei',
-        'Cuci Tas',
-        'OKOKOKOKOKO',
-        'OKOKOKOK',
-      ],
-    ),
-    LaundryItem(
-      imageUrl:
-          'https://i.pinimg.com/736x/3a/5c/53/3a5c53166f8b0d3e479f251659032234.jpg',
-      name: 'Naruto Laundry',
-      services: ['Cuci Pakaian', 'Setrika Pakaian'],
-    ),
-    LaundryItem(
-      imageUrl:
-          'https://i.pinimg.com/736x/3a/5c/53/3a5c53166f8b0d3e479f251659032234.jpg',
-      name: 'Example Laundry',
-      services: ['Cuci Pakaian', 'Setrika Pakaian'],
-    ),
-    LaundryItem(
-      imageUrl:
-          'https://i.pinimg.com/736x/3a/5c/53/3a5c53166f8b0d3e479f251659032234.jpg',
-      name: 'Naruto Laundry',
-      services: ['Cuci Pakaian'],
-    ),
-  ];
+  final FavoriteController favoriteController = Get.put(FavoriteController());
 
   @override
   Widget build(BuildContext context) {
@@ -81,19 +50,34 @@ class FavoritePage extends StatelessWidget {
                 const Search(),
                 const SizedBox(height: 12),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: postController.postList.length,
-                    itemBuilder: (context, index) {
-                      final post = postController.postList[index];
-                      return MyLaundryCard(
-                        nama: post.nama,
-                        laundry: favoriteItems[index],
-                        onTap: () {
-                          Get.toNamed(MyappRoute.laundryDetailPage);
-                        },
-                      );
-                    },
-                  ),
+                  child: Obx(() {
+                    final favoriteList = favoriteController.favoriteList;
+                    if (favoriteList.isEmpty) {
+                      return const Center(child: Text("Belum ada favorit"));
+                    }
+
+                    return ListView.builder(
+                      itemCount: favoriteList.length,
+                      itemBuilder: (context, index) {
+                        final laundry = favoriteList[index];
+                        return MyLaundryCard(
+                          laundry: laundry,
+                          onTap: () {
+                            Get.toNamed(
+                              MyappRoute.laundryDetailPage,
+                              arguments: laundry, 
+                            );
+                          },
+                          trailing: IconButton(
+                            icon: const Icon(Icons.favorite, color: Colors.red),
+                            onPressed: () {
+                              favoriteController.toggleFavorite(laundry);
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  }),
                 ),
               ],
             ),

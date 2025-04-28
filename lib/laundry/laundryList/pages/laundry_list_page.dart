@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundryku/data/PostController.dart';
+import 'package:laundryku/data/model/laundry.dart';
+import 'package:laundryku/data/post_controller.dart';
+import 'package:laundryku/route/my_app_route.dart';
 import 'package:laundryku/widget/my_category_dropDown.dart';
 import 'package:laundryku/widget/my_laundry_card.dart';
 import 'package:laundryku/widget/my_search_bar.dart';
@@ -15,68 +17,42 @@ class LaundryListPage extends StatefulWidget {
 
 class _LaundryListPageState extends State<LaundryListPage> {
   final PostController postController = Get.put(PostController());
-
-  String selectedCategory = 'Category';
-  List<LaundryItem> filteredItems = [];
-  final List<String> categories = [
-    'Semua',
-    'Cuci Pakaian',
-    'Cuci Sprei',
-    'Cuci Tas',
-    'Cuci Sepatu',
-    'Cuci Helm',
-    'Setrika Pakaian',
-  ];
-
-  final List<LaundryItem> allItems = [
-    LaundryItem(
-      imageUrl:
-          'https://i.pinimg.com/736x/3a/5c/53/3a5c53166f8b0d3e479f251659032234.jpg',
-      name: 'Bening Laundry',
-      services: [
-        'Cuci Pakaian',
-        'Cuci Sprei',
-      ],
-    ),
-    LaundryItem(
-      imageUrl:
-          'https://i.pinimg.com/736x/3a/5c/53/3a5c53166f8b0d3e479f251659032234.jpg',
-      name: 'Bening Laundry',
-      services: [
-        'Cuci Pakaian',
-        'Cuci Sprei',
-        'Cuci Tas',
-      ],
-    ),
-    LaundryItem(
-      imageUrl:
-          'https://i.pinimg.com/736x/3a/5c/53/3a5c53166f8b0d3e479f251659032234.jpg',
-      name: 'DevClean',
-      services: ['Cuci Helm', 'Cuci Sepatu'],
-    ),
-    LaundryItem(
-      imageUrl:
-          'https://i.pinimg.com/736x/3a/5c/53/3a5c53166f8b0d3e479f251659032234.jpg',
-      name: 'DevClean',
-      services: ['Cuci Helm', 'Cuci Sepatu'],
-    ),
-  ];
+  String selectedCategory = 'Semua';
+  List<String> categories = ['Semua'];
 
   @override
   void initState() {
     super.initState();
-    filteredItems = allItems;
+    _populateCategories();
   }
 
-  void filterLaundryItems(String category) {
-    setState(() {
-      if (category == 'Semua' || category == 'Category') {
-        filteredItems = allItems;
-      } else {
-        filteredItems =
-            allItems.where((item) => item.services.contains(category)).toList();
+  void _populateCategories() {
+    List<String> allCategories = ['Semua'];
+
+    for (var laundry in postController.postList) {
+      final categoriesFromLaundry = laundry.getCategories();
+      for (var category in categoriesFromLaundry) {
+        if (!allCategories.contains(category)) {
+          allCategories.add(category);
+        }
       }
+    }
+
+    setState(() {
+      categories = allCategories;
     });
+  }
+
+  List<Laundry> filterByCategory(List<Laundry> posts, String category) {
+    if (category.toLowerCase() == 'semua' ||
+        category.toLowerCase() == 'category') {
+      return posts;
+    }
+
+    return posts.where((item) {
+      final jasaList = item.getCategories();
+      return jasaList.contains(category.toLowerCase());
+    }).toList();
   }
 
   @override
@@ -118,19 +94,51 @@ class _LaundryListPageState extends State<LaundryListPage> {
               const SizedBox(height: 8),
               CategoryDropdown(
                 categories: categories,
-                onCategorySelected: filterLaundryItems,
+                onCategorySelected: (value) {
+                  setState(() {
+                    selectedCategory = value;
+                  });
+                },
               ),
+              const SizedBox(height: 8),
               Expanded(
-                child: ListView.builder(
-                  itemCount: postController.postList.length,
-                  itemBuilder: (context, index) {
-                    final post = postController.postList[index];
-                    return MyLaundryCard(
-                      laundry: filteredItems[index],
-                      nama: post.nama,
+                child: Obx(() {
+                  if (postController.isLoading.value) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  final filteredList = filterByCategory(
+                    postController.postList,
+                    selectedCategory,
+                  );
+
+                  if (filteredList.isEmpty) {
+                    return const Center(
+                      child: MyText(
+                        text: 'Tidak ada laundry untuk kategori ini.',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey,
+                      ),
                     );
-                  },
-                ),
+                  }
+
+                  return ListView.builder(
+                    itemCount: filteredList.length,
+                    itemBuilder: (context, index) {
+                      final laundry = filteredList[index];
+                      return MyLaundryCard(
+                        laundry: laundry,
+                        onTap: () {
+                          Get.toNamed(
+                            MyappRoute.laundryDetailPage,
+                            arguments: laundry, // model Laundry
+                          );
+                        },
+                      );
+                    },
+                  );
+                }),
               ),
             ],
           ),

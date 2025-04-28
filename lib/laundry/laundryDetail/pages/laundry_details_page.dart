@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundryku/data/model/laundry.dart';
+import 'package:laundryku/favorite/controllers/favorite_controller.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_description_dropDown.dart';
 import 'package:laundryku/widget/my_details_laundry_textField.dart';
@@ -7,13 +9,17 @@ import 'package:laundryku/widget/my_laundry_info_card.dart';
 import 'package:laundryku/widget/my_text.dart';
 
 class LaundryDetailsPage extends StatefulWidget {
-  const LaundryDetailsPage({super.key});
+  final Laundry laundry;
+
+  const LaundryDetailsPage({super.key, required this.laundry});
 
   @override
   State<LaundryDetailsPage> createState() => _LaundryDetailsPageState();
 }
 
 class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
+  final FavoriteController favoriteController = Get.find();
+
   final phoneController = TextEditingController();
   final addressController = TextEditingController();
   final pickupTimeController = TextEditingController();
@@ -25,6 +31,16 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final imageHeight = screenHeight * 0.25;
     final cardHeight = 120.0;
+    final laundry = widget.laundry;
+    final image = (laundry.img.isEmpty)
+        ? 'https://via.placeholder.com/600x300?text=No+Image'
+        : laundry.img;
+
+    final nama = laundry.nama.isEmpty ? "Nama tidak tersedia" : laundry.nama;
+    final jasa = laundry.jasa.isEmpty ? "Layanan tidak tersedia" : laundry.jasa;
+    final alamat =
+        laundry.alamat.isEmpty ? "Alamat tidak tersedia" : laundry.alamat;
+    final nomor = laundry.nomor.isEmpty ? "-" : laundry.nomor;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -34,17 +50,18 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
           Container(
             height: imageHeight,
             width: double.infinity,
-            child: Image.asset(
-              'assets/image/bg.jpg',
-              fit: BoxFit.cover,
-            ),
+            child: Image.network(image, fit: BoxFit.cover,
+                errorBuilder: (c, e, s) {
+              return Container(
+                color: Colors.grey[300],
+                child: const Center(child: Text("Gagal memuat gambar")),
+              );
+            }),
           ),
-
           SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(height: imageHeight - 10),
-
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -52,10 +69,8 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
@@ -67,23 +82,18 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
                       child: Column(
                         children: [
                           SizedBox(height: cardHeight / 2 + 20),
-
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                            padding: const EdgeInsets.all(20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                MyDescriptionDropdown(
-                                  title: 'Deskripsi',
-                                  content: _buildDescriptionContent(),
-                                ),
                                 MyDescriptionDropdown(
                                   title: 'Estimasi Harga',
                                   content: _buildPriceContent(),
                                 ),
                                 MyDescriptionDropdown(
                                   title: 'Lokasi',
-                                  content: _buildLocationContent(),
+                                  content: _buildLocationContent(alamat, nomor),
                                 ),
                                 const SizedBox(height: 12),
                                 MyDetailsLaundryTextfield(
@@ -115,44 +125,35 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
                                     ),
                                     Switch(
                                       value: isSelfPickup,
-                                      onChanged: (val) {
-                                        setState(() {
-                                          isSelfPickup = val;
-                                        });
-                                      },
+                                      onChanged: (val) =>
+                                          setState(() => isSelfPickup = val),
                                       activeColor: const Color(0xFF00ADB5),
-                                      inactiveTrackColor: const Color.fromARGB(
-                                          255, 255, 255, 255),
+                                      inactiveTrackColor: Colors.white,
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                    height:
-                                        120), 
+                                const SizedBox(height: 120),
                               ],
                             ),
                           ),
                         ],
                       ),
                     ),
-
                     Positioned(
                       top: -cardHeight / 3,
                       left: 60,
                       right: 60,
                       child: LaundryInfoCard(
-                        title: 'Bening Laundry',
-                        subtitle: 'Pakaian, Sprei, Tas, Boneka',
-                        services: const [
-                          LaundryService(
-                            name: 'Delivery',
-                            icon: Icons.local_shipping_outlined,
-                          ),
-                          LaundryService(
-                            name: 'Pick Up',
-                            icon: Icons.shopping_bag_outlined,
-                          ),
-                        ],
+                        title: nama,
+                        subtitle: jasa,
+                        services: laundry.pengantaran
+                            .split(',')
+                            .map((e) => e.trim())
+                            .map((name) => LaundryService(
+                                  name: name,
+                                  icon: _getIconForService(name),
+                                ))
+                            .toList(),
                       ),
                     ),
                   ],
@@ -160,7 +161,6 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
               ],
             ),
           ),
-
           Positioned(
             top: MediaQuery.of(context).padding.top + 10,
             left: 10,
@@ -171,13 +171,10 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
               ),
               child: IconButton(
                 icon: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () {
-                  Get.back();
-                },
+                onPressed: () => Get.back(),
               ),
             ),
           ),
-
           Positioned(
             bottom: 0,
             left: 0,
@@ -196,21 +193,26 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
               ),
               child: Row(
                 children: [
-                  MyButton(
-                    text: '',
-                    onPressed: () {},
-                    color: Colors.red,
-                    borderRadius: 12,
-                    width: 60,
-                    height: 60,
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    icon: const Icon(
-                      Icons.favorite,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-                  ),
+                  Obx(() {
+                    final isFavorited = favoriteController.isFavorite(laundry);
+                    return MyButton(
+                      text: '',
+                      onPressed: () {
+                        favoriteController.toggleFavorite(laundry);
+                      },
+                      color: isFavorited ? Colors.red : Colors.grey.shade300,
+                      borderRadius: 12,
+                      width: 60,
+                      height: 60,
+                      margin: EdgeInsets.zero,
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        isFavorited ? Icons.favorite : Icons.favorite_border,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                    );
+                  }),
                   const SizedBox(width: 10),
                   MyButton(
                     text: '',
@@ -253,6 +255,52 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
     );
   }
 
+  Widget _buildLocationContent(String alamat, String nomor) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MyText(
+          text: alamat,
+          fontSize: 13,
+          color: Colors.black87,
+          fontWeight: FontWeight.w500,
+        ),
+        const SizedBox(height: 4),
+        MyText(
+          text: "Nomor hp : $nomor",
+          fontSize: 13,
+          color: Colors.black87,
+          fontWeight: FontWeight.w500,
+        ),
+        const SizedBox(height: 12),
+        Container(
+          height: 120,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(8)),
+          alignment: Alignment.center,
+          child: const Icon(Icons.map, size: 40, color: Colors.grey),
+        ),
+      ],
+    );
+  }
+
+  IconData _getIconForService(String name) {
+    switch (name.toLowerCase()) {
+      case 'delivery':
+        return Icons.local_shipping_outlined;
+      case 'pick up':
+        return Icons.shopping_bag_outlined;
+      case 'antar':
+        return Icons.delivery_dining_outlined;
+      case 'ambil':
+        return Icons.storefront_outlined;
+      default:
+        return Icons.miscellaneous_services;
+    }
+  }
+
   Widget _buildPriceContent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,7 +311,7 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
             MyText(
               text: 'Kiloan:',
               fontSize: 14,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               color: Colors.black,
             ),
             MyText(
@@ -279,7 +327,7 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
           text: 'Satuan:',
           fontSize: 14,
           color: Colors.black,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
         ),
         const SizedBox(height: 4),
         _buildSatuanItem('Tas', '10.000'),
@@ -309,50 +357,6 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildDescriptionContent() {
-    return MyText(
-      text:
-          'Bening Laundry menyediakan layanan cuci bersih, wangi, dan rapi. \n\n'
-          'Kami menggunakan deterjen ramah lingkungan dan mesin cuci berkualitas tinggi.\n\n'
-          'Layanan kami mencakup cuci reguler, cuci express, dan setrika saja.',
-      fontSize: 13,
-      color: Colors.black87,
-      fontWeight: FontWeight.w400,
-    );
-  }
-
-  Widget _buildLocationContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        MyText(
-          text: 'Jl. Raya Kebayoran Lama No. 12',
-          fontSize: 13,
-          color: Colors.black87,
-          fontWeight: FontWeight.w400,
-        ),
-        const SizedBox(height: 4),
-        MyText(
-          text: 'Jakarta Selatan, 12210',
-          fontSize: 13,
-          color: Colors.black87,
-          fontWeight: FontWeight.w400,
-        ),
-        const SizedBox(height: 12),
-        Container(
-          height: 120,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade300,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          alignment: Alignment.center,
-          child: const Icon(Icons.map, size: 40, color: Colors.grey),
-        ),
-      ],
     );
   }
 }
