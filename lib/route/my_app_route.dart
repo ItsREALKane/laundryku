@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:laundryku/data/model/laundry.dart';
 import 'package:laundryku/favorite/bindings/favorite_binding.dart';
 import 'package:laundryku/favorite/pages/favorite_page.dart';
 import 'package:laundryku/home/bindings/home_binding.dart';
@@ -96,13 +97,13 @@ class MyappRoute {
         binding: LaundryListBinding(),
         transition: Transition.native,
         transitionDuration: Duration(milliseconds: 450)),
-
     GetPage(
-        name: MyappRoute.laundryDetailPage,
-        page: () => LaundryDetailsPage(),
-        binding: LaundryDetailsBinding(),
-        transition: Transition.native,
-        transitionDuration: Duration(milliseconds: 450)),
+      name: MyappRoute.laundryDetailPage,
+      page: () => LaundryDetailsPage(laundry: Get.arguments as Laundry),
+      binding: LaundryDetailsBinding(),
+      transition: Transition.native,
+      transitionDuration: Duration(milliseconds: 450),
+    ),
 
     //tagihan
     GetPage(

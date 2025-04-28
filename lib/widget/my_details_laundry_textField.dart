@@ -23,20 +23,25 @@ class MyDetailsLaundryTextfield extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         maxLines: maxLines,
+        style: GoogleFonts.poppins(),
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: GoogleFonts.poppins(color: Colors.grey),
           filled: true,
-          fillColor: Colors.grey.shade300,
+          fillColor: Colors.white,
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: const Color(0xFF00ADB5), width: 1.25),
+            borderSide: const BorderSide(color: Color(0xFF00ADB5), width: 2),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: const Color(0xFF00ADB5), width: 1.25),
+            borderSide: const BorderSide(color: Color(0xFF00ADB5), width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Colors.red, width: 2),
           ),
         ),
       ),
