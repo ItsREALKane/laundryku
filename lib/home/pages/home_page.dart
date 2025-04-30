@@ -11,6 +11,8 @@ import '../../route/my_app_route.dart';
 
 class HomePage extends StatelessWidget {
   final PostController controller = Get.put(PostController());
+  
+  HomePage(); // <--- Tambahin ini
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +121,6 @@ class HomePage extends StatelessWidget {
                           if (controller.isLoading.value) {
                             return Center(child: CircularProgressIndicator());
                           }
-
                           return Column(
                             children: controller.postList
                                 .map((laundry) => MyLaundryCard(

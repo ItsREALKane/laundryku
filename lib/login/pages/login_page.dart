@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:laundryku/home/pages/home_page.dart';
 import 'package:laundryku/login/controllers/login_controller.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_text.dart';
@@ -81,9 +84,36 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 20),
-                Image.asset(
-                  'assets/image/google.png',
-                  width: 30,
+                SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () => signinWithGoogle(),
+                  child: Container(
+                    height: 50,
+                    width: 250,
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/image/google.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        SizedBox(width: 10),
+                        MyText(
+                          text: "Login with Google",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 SizedBox(height: 20),
                 Row(
@@ -114,5 +144,29 @@ class LoginPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  signinWithGoogle() async {
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    print(userCredential.user?.displayName);
+    print(userCredential.user?.email);
+
+    if (userCredential.user != null) {
+      Get.offAllNamed('/navbar');
+    } else {
+      Get.snackbar("Error", "Login failed",
+          backgroundColor: Colors.red, colorText: Colors.white);
+    }
   }
 }
