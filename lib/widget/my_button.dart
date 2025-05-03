@@ -3,7 +3,7 @@ import 'package:laundryku/widget/my_text.dart';
 
 class MyButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final bool isLoading;
   final Color color;
   final Color? textColor;

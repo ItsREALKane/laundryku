@@ -86,7 +86,7 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 20),
                 SizedBox(height: 20),
                 GestureDetector(
-                  onTap: () => signinWithGoogle(),
+                  onTap: () => loginController.signinWithGoogle(),
                   child: Container(
                     height: 50,
                     width: 250,
@@ -145,28 +145,5 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-
-  signinWithGoogle() async {
-    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-    AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
-    print(userCredential.user?.displayName);
-    print(userCredential.user?.email);
-
-    if (userCredential.user != null) {
-      Get.offAllNamed('/navbar');
-    } else {
-      Get.snackbar("Error", "Login failed",
-          backgroundColor: Colors.red, colorText: Colors.white);
-    }
+  
   }
-}
