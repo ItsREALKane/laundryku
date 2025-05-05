@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundryku/data/post_controller.dart';
+import 'package:laundryku/data/api_controller.dart';
 
 import 'package:laundryku/widget/my_home_quick_button.dart';
 import 'package:laundryku/widget/my_image_slider.dart';
@@ -10,9 +10,9 @@ import 'package:laundryku/widget/my_text.dart';
 import '../../route/my_app_route.dart';
 
 class HomePage extends StatelessWidget {
-  final PostController controller = Get.put(PostController());
+  final ApiController controller = Get.put(ApiController());
   
-  HomePage(); // <--- Tambahin ini
+  HomePage();
 
   @override
   Widget build(BuildContext context) {

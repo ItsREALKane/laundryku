@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundryku/data/post_controller.dart';
+import 'package:laundryku/data/api_controller.dart';
 import 'package:laundryku/favorite/controllers/favorite_controller.dart';
 import 'package:laundryku/route/my_app_route.dart';
 import 'package:laundryku/widget/my_laundry_card.dart';
@@ -9,7 +9,7 @@ import 'package:laundryku/widget/my_text.dart';
 
 class FavoritePage extends StatelessWidget {
   FavoritePage({super.key});
-  final PostController postController = Get.put(PostController());
+  final ApiController postController = Get.put(ApiController());
   final FavoriteController favoriteController = Get.put(FavoriteController());
 
   @override

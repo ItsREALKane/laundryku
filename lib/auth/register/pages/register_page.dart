@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundryku/register/controllers/register_controller.dart';
+import 'package:laundryku/auth/register/controllers/register_controller.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_text.dart';
 import 'package:laundryku/widget/my_text_field.dart';
 
 class RegisterPage extends StatelessWidget {
   final RegisterController registerController = Get.find<RegisterController>();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,20 +43,20 @@ class RegisterPage extends StatelessWidget {
                   SizedBox(height: 20),
                   MyTextField(
                     hintText: "Username",
-                    controller: usernameController,
+                    controller: registerController.usernameController,
                   ),
                   MyTextField(
                     hintText: "Email",
-                    controller: emailController,
+                    controller: registerController.emailController,
                   ),
                   MyTextField(
                     hintText: "Password",
-                    controller: passwordController,
+                    controller: registerController.passwordController,
                   ),
                   SizedBox(height: 20),
                   MyButton(
                     text: "Sign Up",
-                    onPressed: () {},
+                    onPressed: () => registerController.registerWithEmail(),
                     color: const Color(0xFF00ADB5),
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
