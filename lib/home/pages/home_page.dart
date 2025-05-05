@@ -11,7 +11,7 @@ import '../../route/my_app_route.dart';
 
 class HomePage extends StatelessWidget {
   final PostController controller = Get.put(PostController());
-  
+
   HomePage(); // <--- Tambahin ini
 
   @override
@@ -73,9 +73,13 @@ class HomePage extends StatelessWidget {
                       HomeQuickButton(
                           icon: Icons.dry_cleaning,
                           onTap: () {
-                            Get.toNamed("/laundryList");
+                            Get.toNamed(MyappRoute.laundryListPage);
                           }),
-                      HomeQuickButton(icon: Icons.access_time, onTap: () {}),
+                      HomeQuickButton(
+                          icon: Icons.access_time, 
+                          onTap: () {
+                            
+                          }),
                       HomeQuickButton(
                           icon: Icons.event_note_rounded,
                           onTap: () {
