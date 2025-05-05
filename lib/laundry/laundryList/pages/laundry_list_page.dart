@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laundryku/data/model/laundry.dart';
-import 'package:laundryku/data/post_controller.dart';
+import 'package:laundryku/data/api_controller.dart';
 import 'package:laundryku/route/my_app_route.dart';
 import 'package:laundryku/widget/my_category_dropDown.dart';
 import 'package:laundryku/widget/my_laundry_card.dart';
@@ -16,7 +16,7 @@ class LaundryListPage extends StatefulWidget {
 }
 
 class _LaundryListPageState extends State<LaundryListPage> {
-  final PostController postController = Get.put(PostController());
+  final ApiController postController = Get.put(ApiController());
   String selectedCategory = 'Semua';
   List<String> categories = ['Semua'];
 

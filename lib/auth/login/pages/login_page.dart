@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:laundryku/login/controllers/login_controller.dart';
+import 'package:laundryku/auth/login/controllers/login_controller.dart';
 import 'package:laundryku/route/my_app_route.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_text.dart';
@@ -10,8 +9,6 @@ import 'package:laundryku/widget/my_text_field.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginController loginController = Get.find<LoginController>();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +40,11 @@ class LoginPage extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 MyTextField(
-                    hintText: "Username", controller: usernameController),
+                    hintText: "Email",
+                    controller: loginController.emailController),
                 MyTextField(
-                    hintText: "Password", controller: passwordController),
+                    hintText: "Password",
+                    controller: loginController.passwordController),
                 MyButton(
                   text: "Login",
                   onPressed: () {
@@ -145,5 +144,4 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-  
-  }
+}

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laundryku/firebase_options.dart';
 import 'package:laundryku/home/pages/home_page.dart';
-import 'package:laundryku/login/controllers/login_controller.dart';
-import 'package:laundryku/login/pages/login_page.dart';
+import 'package:laundryku/auth/login/controllers/login_controller.dart';
+import 'package:laundryku/auth/login/pages/login_page.dart';
 import 'package:laundryku/route/my_app_route.dart';
 
 void main() async {
