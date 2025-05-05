@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:laundryku/widget/my_button.dart';
-import 'package:laundryku/widget/my_menu_item.dart';
-import 'package:laundryku/widget/my_text.dart';
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
+          // Background with bubble decorations
+          // Main content
           Column(
             children: [
               const SizedBox(height: 100),
+
+              // Profile section
               Center(
                 child: Column(
                   children: [
+                    // Profile picture
                     Container(
-                      width: 100,
-                      height: 100,
+                      width: 80,
+                      height: 80,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 2),
@@ -30,33 +32,44 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const MyText(
-                      text: 'User',
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black,
+
+                    // User name
+                    const Text(
+                      'User',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
-                    const MyText(
-                      text: 'user@gmail.com',
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black54,
+
+                    // User email
+                    const Text(
+                      'user@gmail.com',
+                      style: TextStyle(fontSize: 16, color: Colors.black54),
                     ),
-                    MyButton(
-                      text: 'Edit Profil',
-                      onPressed: () {
-                        Get.toNamed("/profileEdit");
-                      },
-                      color: const Color(0xFF00ADB5),
-                      width: 120,
-                      height: 36,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
+
+                    const SizedBox(height: 16),
+
+                    // Edit profile button
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1EBABA),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        minimumSize: const Size(120, 36),
+                      ),
+                      child: const Text('Edit Profile'),
                     ),
                   ],
                 ),
               ),
+
               const SizedBox(height: 30),
+
+              // Menu options
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 50),
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -67,28 +80,92 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    MenuItem(
-                      icon: Icons.receipt_outlined,
-                      text: 'Pesanan Saya',
-                      onTap: () {
-                        Get.toNamed("/order");
-                      },
+                    // My Orders - with compact design
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      child: ListTile(
+                        dense: true,
+                        visualDensity: const VisualDensity(
+                          horizontal: -4,
+                          vertical: -2,
+                        ),
+                        leading: const Icon(
+                          Icons.receipt_outlined,
+                          color: Colors.black87,
+                          size: 22,
+                        ),
+                        title: const Text(
+                          'Pesanan Saya',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                        onTap: () {},
+                      ),
                     ),
+
                     const Divider(height: 1),
-                    MenuItem(
-                      icon: Icons.history,
-                      text: 'Riwayat Pesanan',
-                      onTap: () {
-                        Get.toNamed("/orderHistory");
-                      },
+
+                    // Order History - with compact design
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      child: ListTile(
+                        dense: true,
+                        visualDensity: const VisualDensity(
+                          horizontal: -4,
+                          vertical: -2,
+                        ),
+                        leading: const Icon(
+                          Icons.history,
+                          color: Colors.black87,
+                          size: 22,
+                        ),
+                        title: const Text(
+                          'Riwayat Pesanan',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                        onTap: () {},
+                      ),
                     ),
+
                     const Divider(height: 1),
-                    MenuItem(
-                      icon: Icons.settings,
-                      text: 'Pengaturan',
-                      onTap: () {
-                        Get.toNamed("/profileSetting");
-                      },
+
+                    // Settings - with compact design
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      child: ListTile(
+                        dense: true,
+                        visualDensity: const VisualDensity(
+                          horizontal: -4,
+                          vertical: -2,
+                        ),
+                        leading: const Icon(
+                          Icons.settings,
+                          color: Colors.black87,
+                          size: 22,
+                        ),
+                        title: const Text(
+                          'Pengaturan',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                        onTap: () {},
+                      ),
                     ),
                   ],
                 ),
