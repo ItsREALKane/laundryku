@@ -44,6 +44,7 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
     setState(() {
       userId = id;
     });
+    print('Loaded user ID in LaundryDetailsPage: $id');
   }
 
   @override
@@ -417,9 +418,13 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
       final loadedId = await _orderService.getUserId();
       if (loadedId == null) {
         _showErrorDialog('User ID tidak ditemukan. Silakan login kembali.');
+        setState(() {
+          isLoading = false;
+        });
         return;
       }
       userId = loadedId;
+      print('User ID berhasil diambil: $userId');
     }
 
     // Get current date for order date fields
@@ -434,7 +439,7 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
     
     // Create order object
     final order = Order(
-      idUser: userId,
+      idUser: userId, // Ayeuna userId pasti aya soalna geus dicek di luhur
       idLaundry: laundry.id,
       tanggalPesanan: formattedDate,
       status: 'Menunggu Konfirmasi',
@@ -448,6 +453,8 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
       nomorHp: phoneController.text,
       namaLaundry: laundry.nama,
     );
+    
+    print("Order created with user ID: ${order.idUser}");
 
     // Use service to create order
     final result = await _orderService.createOrder(order);

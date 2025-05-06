@@ -1,7 +1,7 @@
 // lib/data/model/order.dart
 
 class Order {
-  final int? idUser;
+  int? idUser;
   final int idLaundry;
   final String tanggalPesanan;
   final String status;

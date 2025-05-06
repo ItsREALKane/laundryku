@@ -45,6 +45,10 @@ class LoginController extends GetxController {
             if (matchedUser != null) {
               await prefs.setInt('user_id', matchedUser['id']);
               await prefs.setString('user_name', matchedUser['name']);
+              
+              // Gunakeun fungsi saveUserId ti ApiService pikeun nyimpen id user
+              final apiService = ApiService();
+              await apiService.saveUserId(matchedUser['id']);
               print("User ID disimpan: ${matchedUser['id']}");
             }
           }

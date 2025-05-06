@@ -10,10 +10,30 @@ class ApiService {
   Future<int?> getUserId() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getInt('user_id');
+      final userId = prefs.getInt('user_id');
+      if (userId == null) {
+        print('⚠️ WARNING: User ID teu kapanggih dina SharedPreferences');
+        return null;
+      }
+      print('✅ User ID kahiji: $userId');
+      return userId;
     } catch (e) {
-      print('Error loading user ID: $e');
+      print('❌ Error dina keur maca User ID: $e');
+      print('Stack trace: ${StackTrace.current}');
       return null;
+    }
+  }
+
+  // Nyimpen ID user kana SharedPreferences
+  Future<bool> saveUserId(int userId) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('user_id', userId);
+      print('User ID disimpen: $userId');
+      return true;
+    } catch (e) {
+      print('Error saat menyimpan user ID: $e');
+      return false;
     }
   }
 
@@ -32,14 +52,17 @@ class ApiService {
     }
   }
 
-  // Fetches the laundry Order from the API
   Future<Map<String, dynamic>> createOrder(Order order) async {
     try {
       if (order.idUser == null) {
-        return {
-          'success': false,
-          'message': 'User ID tidak tersedia. Silakan login kembali.'
-        };
+        final userId = await getUserId();
+        if (userId == null) {
+          return {
+            'success': false,
+            'message': 'Punten, ID akun anjeun teu kapanggih. Mangga asup deui heula ka akun anjeun.'
+          };
+        }
+        order.idUser = userId;
       }
 
       final orderData = order.toJson();
