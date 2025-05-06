@@ -32,25 +32,15 @@ class LoginController extends GetxController {
           final SharedPreferences prefs = await _prefs;
           await prefs.setString('token', token);
 
-          var userUrl = Uri.parse("${ApiEndPoints.base}/api/users");
-          http.Response userResponse = await http.get(userUrl);
-
-          if (userResponse.statusCode == 200) {
-            final userData = jsonDecode(userResponse.body)['data'] as List;
-            final matchedUser = userData.firstWhere(
-              (user) => user['email'] == emailController.text.trim(),
-              orElse: () => null,
-            );
-
-            if (matchedUser != null) {
-              await prefs.setInt('user_id', matchedUser['id']);
-              await prefs.setString('user_name', matchedUser['name']);
-              
-              // Gunakeun fungsi saveUserId ti ApiService pikeun nyimpen id user
-              final apiService = ApiService();
-              await apiService.saveUserId(matchedUser['id']);
-              print("User ID disimpan: ${matchedUser['id']}");
-            }
+          // Nyimpen user ID ti response login
+          if (json['user_id'] != null) {
+            await prefs.setInt('user_id', json['user_id']);
+            await prefs.setString('user_name', json['name'] ?? '');
+            
+            // Gunakeun fungsi saveUserId ti ApiService pikeun nyimpen id user
+            final apiService = ApiService();
+            await apiService.saveUserId(json['user_id']);
+            print("User ID disimpen: ${json['user_id']}");
           }
 
           Get.toNamed(MyappRoute.navbar);

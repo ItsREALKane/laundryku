@@ -444,7 +444,7 @@ class _LaundryDetailsPageState extends State<LaundryDetailsPage> {
       tanggalPesanan: formattedDate,
       status: 'Menunggu Konfirmasi',
       totalHarga: '0',
-      jenisPembayaran: 'Cash',
+      jenisPembayaran: 'sekali',
       tglLanggananBerakhir: formattedFutureDate,
       alamat: addressController.text,
       waktuAmbil: pickupTimeController.text,

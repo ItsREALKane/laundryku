@@ -6,8 +6,8 @@ class Order {
   final String tanggalPesanan;
   final String status;
   final String totalHarga;
-  final String jenisPembayaran;
-  final String tglLanggananBerakhir;
+  String? jenisPembayaran;
+  String? tglLanggananBerakhir;
   final String alamat;
   final String waktuAmbil;
   final String catatan;
@@ -21,8 +21,8 @@ class Order {
     required this.tanggalPesanan,
     required this.status,
     required this.totalHarga,
-    required this.jenisPembayaran,
-    required this.tglLanggananBerakhir,
+    this.jenisPembayaran,
+    this.tglLanggananBerakhir,
     required this.alamat,
     required this.waktuAmbil,
     required this.catatan,
@@ -30,6 +30,8 @@ class Order {
     required this.nomorHp,
     required this.namaLaundry,
   });
+
+
 
   Map<String, dynamic> toJson() {
     return {
