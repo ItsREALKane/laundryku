@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:laundryku/auth/login/controllers/login_controller.dart';
-import 'package:laundryku/route/my_app_route.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_text.dart';
 import 'package:laundryku/widget/my_text_field.dart';
@@ -48,7 +46,7 @@ class LoginPage extends StatelessWidget {
                 MyButton(
                   text: "Login",
                   onPressed: () {
-                    Get.toNamed(MyappRoute.navbar);
+                    loginController.loginWithEmail();
                   },
                   color: const Color(0xFF00ADB5),
                   fontWeight: FontWeight.w600,

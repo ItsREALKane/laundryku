@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,50 +25,65 @@ class LoginController extends GetxController {
       http.Response response =
           await http.post(url, body: jsonEncode(body), headers: headers);
 
-      // Cek status code 200 untuk login berhasil
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-
         if (json['status'] == true) {
-          // status true menunjukkan login sukses
-          var token = json['token']; // Periksa apakah 'token' tersedia
-          final SharedPreferences? prefs = await _prefs;
-          await prefs?.setString('token', token);
-          print("Token stored successfully: $token");
+          var token = json['token'];
+          final SharedPreferences prefs = await _prefs;
+          await prefs.setString('token', token);
 
-          emailController.clear();
-          passwordController.clear();
-          print("Navigating to navbar...");
+          var userUrl = Uri.parse("${ApiEndPoints.base}/api/users");
+          http.Response userResponse = await http.get(userUrl);
+
+          if (userResponse.statusCode == 200) {
+            final userData = jsonDecode(userResponse.body)['data'] as List;
+            final matchedUser = userData.firstWhere(
+              (user) => user['email'] == emailController.text.trim(),
+              orElse: () => null,
+            );
+
+            if (matchedUser != null) {
+              await prefs.setInt('user_id', matchedUser['id']);
+              await prefs.setString('user_name', matchedUser['name']);
+              print("User ID disimpan: ${matchedUser['id']}");
+            }
+          }
 
           Get.toNamed(MyappRoute.navbar);
         } else {
-          // Jika login gagal, tampilkan pesan error
-          throw json['message'] ??
-              "Login failed"; // Ambil pesan error dari server
+          throw json['message'] ?? "Login failed";
         }
       } else {
         throw jsonDecode(response.body)['message'] ?? "Unknown Error Occurred";
       }
     } catch (error) {
-      // Tangani error dengan dialog yang memberikan detail lebih lengkap
-      print("❌ Error: $error");
       showDialog(
-          context: Get.context!,
-          builder: (context) {
-            return SimpleDialog(
-              title: Text('Error'),
-              contentPadding: EdgeInsets.all(20),
-              children: [Text(error.toString())],
-            );
-          });
+        context: Get.context!,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text('Error'),
+            contentPadding: EdgeInsets.all(20),
+            children: [Text(error.toString())],
+          );
+        },
+      );
     }
+  }
+
+  Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    print("👋 Logged out. Data cleared.");
+    Get.offAllNamed('/login');
+  }
+
+  Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
   }
 
   signinWithGoogle() async {
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
     GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
     AuthCredential credential = GoogleAuthProvider.credential(
