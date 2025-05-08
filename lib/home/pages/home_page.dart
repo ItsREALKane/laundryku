@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laundryku/auth/login/controllers/login_controller.dart';
 import 'package:laundryku/data/api_controller.dart';
+import 'package:laundryku/profile/controllers/profile_controller.dart';
 import 'package:laundryku/widget/my_home_quick_button.dart';
 import 'package:laundryku/widget/my_image_slider.dart';
 import 'package:laundryku/widget/my_laundry_card.dart';
@@ -19,19 +20,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ApiController controller = Get.put(ApiController());
-  String userName = 'User';
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   void initState() {
     super.initState();
-    loadUserName();
-  }
-
-  Future<void> loadUserName() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userName = prefs.getString('user_name') ?? 'User';
-    });
   }
 
   @override
@@ -69,12 +62,12 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 16),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: MyText(
-                      text: "Halo, $userName!",
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                    child: Obx(() => MyText(
+                          text: "Halo, ${profileController.userName.value}!",
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        )),
                   ),
                   const SizedBox(height: 4),
                   const Align(
