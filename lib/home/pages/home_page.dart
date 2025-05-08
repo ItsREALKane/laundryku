@@ -98,8 +98,8 @@ class _HomePageState extends State<HomePage> {
                       HomeQuickButton(
                           icon: Icons.access_time,
                           onTap: () {
-                            // final loginController = Get.find<LoginController>();
-                            // loginController.logout();
+                            final loginController = Get.find<LoginController>();
+                            loginController.logout();
                           }),
                       HomeQuickButton(
                           icon: Icons.event_note_rounded,
