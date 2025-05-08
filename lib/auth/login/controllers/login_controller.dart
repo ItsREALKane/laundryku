@@ -13,9 +13,14 @@ class LoginController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+  RxBool rememberMe = false.obs;
+  RxBool isLoading = false.obs;
+
   Future<void> loginWithEmail() async {
     var headers = {'Content-Type': 'application/json'};
     try {
+      isLoading.value = true;
+
       var url =
           Uri.parse(ApiEndPoints.base + ApiEndPoints.authEndpoints.loginEmail);
       Map body = {
@@ -25,19 +30,22 @@ class LoginController extends GetxController {
       http.Response response =
           await http.post(url, body: jsonEncode(body), headers: headers);
 
+      isLoading.value = false;
+
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         if (json['status'] == true) {
           var token = json['token'];
-          final SharedPreferences prefs = await _prefs;
-          await prefs.setString('token', token);
 
-          // Nyimpen user ID ti response login
+          final SharedPreferences prefs = await _prefs;
+          if (rememberMe.value) {
+            await prefs.setString('token', token);
+          }
+
           if (json['user_id'] != null) {
             await prefs.setInt('user_id', json['user_id']);
             await prefs.setString('user_name', json['name'] ?? '');
-            
-            // Gunakeun fungsi saveUserId ti ApiService pikeun nyimpen id user
+
             final apiService = ApiService();
             await apiService.saveUserId(json['user_id']);
             print("User ID disimpen: ${json['user_id']}");
@@ -51,6 +59,7 @@ class LoginController extends GetxController {
         throw jsonDecode(response.body)['message'] ?? "Unknown Error Occurred";
       }
     } catch (error) {
+      isLoading.value = false;
       showDialog(
         context: Get.context!,
         builder: (context) {
@@ -97,5 +106,12 @@ class LoginController extends GetxController {
       Get.snackbar("Error", "Login failed",
           backgroundColor: Colors.red, colorText: Colors.white);
     }
+  }
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
   }
 }
