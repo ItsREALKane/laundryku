@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiService {
   final String baseUrl = 'https://laundryku.rplrus.com/api';
 
+  // Get user ID from SharedPreferences
   Future<int?> getUserId() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -24,7 +25,7 @@ class ApiService {
     }
   }
 
-  // Nyimpen ID user kana SharedPreferences
+  // Save user ID to SharedPreferences
   Future<bool> saveUserId(int userId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -52,6 +53,7 @@ class ApiService {
     }
   }
 
+  // Create order and send to API
   Future<Map<String, dynamic>> createOrder(Order order) async {
     try {
       if (order.idUser == null) {
@@ -59,16 +61,14 @@ class ApiService {
         if (userId == null) {
           return {
             'success': false,
-            'message': 'Punten, ID akun anjeun teu kapanggih. Mangga asup deui heula ka akun anjeun.'
+            'message':
+                'Punten, ID akun anjeun teu kapanggih. Mangga asup deui heula ka akun anjeun.'
           };
         }
         order.idUser = userId;
       }
 
-
-
       final orderData = order.toJson();
-
       orderData['antar_sendiri'] = order.antarSendiri ? 1 : 0;
 
       print("Sending order data: $orderData");
@@ -126,6 +126,43 @@ class ApiService {
     } catch (e) {
       print('Exception during order creation: $e');
       return {'success': false, 'message': 'Terjadi kesalahan koneksi: $e'};
+    }
+  }
+
+  // load username kaleh email
+  Future<Map<String, dynamic>> getUserInfo() async {
+    try {
+      final userId = await getUserId();
+      if (userId == null) {
+        return {
+          'success': false,
+          'message': 'User ID not found, please log in again.'
+        };
+      }
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/users/$userId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> userData = jsonDecode(response.body);
+        return {
+          'success': true,
+          'data': userData,
+        };
+      } else {
+        return {
+          'success': false,
+          'message': 'Failed to fetch user info',
+        };
+      }
+    } catch (e) {
+      print('❌ Error fetching user info: $e');
+      return {'success': false, 'message': 'Error fetching user info: $e'};
     }
   }
 }

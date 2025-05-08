@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundryku/profile/controllers/profile_controller.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_menu_item.dart';
 import 'package:laundryku/widget/my_text.dart';
 
 class ProfilePage extends StatelessWidget {
+  final ProfileController controller = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,18 +33,18 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const MyText(
-                      text: 'User',
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black,
-                    ),
-                    const MyText(
-                      text: 'user@gmail.com',
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black54,
-                    ),
+                    Obx(() => MyText(
+                          text: controller.userName.value,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                        )),
+                    Obx(() => MyText(
+                          text: controller.email.value,
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black54,
+                        )),
                     MyButton(
                       text: 'Edit Profil',
                       onPressed: () {
