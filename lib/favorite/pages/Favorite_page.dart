@@ -53,7 +53,14 @@ class FavoritePage extends StatelessWidget {
                   child: Obx(() {
                     final favoriteList = favoriteController.favoriteList;
                     if (favoriteList.isEmpty) {
-                      return const Center(child: Text("Belum ada favorit"));
+                      return const Center(
+                        child: MyText(
+                          text: "Belum ada favorite",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF000000),
+                        ),
+                      );
                     }
 
                     return ListView.builder(
@@ -65,7 +72,7 @@ class FavoritePage extends StatelessWidget {
                           onTap: () {
                             Get.toNamed(
                               MyappRoute.laundryDetailPage,
-                              arguments: laundry, 
+                              arguments: laundry,
                             );
                           },
                           trailing: IconButton(

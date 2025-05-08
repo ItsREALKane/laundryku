@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundryku/data/service/API_service.dart';
+import 'package:laundryku/favorite/controllers/favorite_controller.dart';
 import 'package:laundryku/route/my_app_route.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,8 +37,8 @@ class LoginController extends GetxController {
         final json = jsonDecode(response.body);
         if (json['status'] == true) {
           var token = json['token'];
-
           final SharedPreferences prefs = await _prefs;
+
           if (rememberMe.value) {
             await prefs.setString('token', token);
           }
@@ -46,9 +47,17 @@ class LoginController extends GetxController {
             await prefs.setInt('user_id', json['user_id']);
             await prefs.setString('user_name', json['name'] ?? '');
 
+            // simpan user ID ke service kalau perlu
             final apiService = ApiService();
             await apiService.saveUserId(json['user_id']);
-            print("User ID disimpen: ${json['user_id']}");
+            print("✅ User ID disimpen: ${json['user_id']}");
+
+            // Inisialisasi FavoriteController dengan user_id baru
+            if (Get.isRegistered<FavoriteController>()) {
+              Get.delete<FavoriteController>(); // buang yang lama
+            }
+            Get.put(FavoriteController());
+            await Get.find<FavoriteController>().loadUserIdAndFavorites();
           }
 
           Get.toNamed(MyappRoute.navbar);
@@ -75,9 +84,21 @@ class LoginController extends GetxController {
 
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
-    print("👋 Logged out. Data cleared.");
-    Get.offAllNamed('/login');
+
+    // Clear token & user data
+    await prefs.remove('token');
+    await prefs.remove('user_id');
+    await prefs.remove('user_name');
+
+    // Hapus dari memory controller
+    if (Get.isRegistered<FavoriteController>()) {
+      Get.find<FavoriteController>().favoriteList.clear();
+      Get.delete<FavoriteController>();
+    }
+
+    print(
+        "👋 Logged out. Token, user info dibersihkan, favorite tetap aman di device.");
+    Get.offAllNamed(MyappRoute.loginPage);
   }
 
   Future<String?> getToken() async {
@@ -85,7 +106,7 @@ class LoginController extends GetxController {
     return prefs.getString('token');
   }
 
-  signinWithGoogle() async {
+  Future<void> signinWithGoogle() async {
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
@@ -101,7 +122,7 @@ class LoginController extends GetxController {
     print(userCredential.user?.email);
 
     if (userCredential.user != null) {
-      Get.offAllNamed('/navbar');
+      Get.offAllNamed(MyappRoute.navbar);
     } else {
       Get.snackbar("Error", "Login failed",
           backgroundColor: Colors.red, colorText: Colors.white);
