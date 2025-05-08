@@ -8,7 +8,6 @@ import 'package:laundryku/widget/my_text_field.dart';
 class RegisterPage extends StatelessWidget {
   final RegisterController registerController = Get.find<RegisterController>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +51,7 @@ class RegisterPage extends StatelessWidget {
                   MyTextField(
                     hintText: "Password",
                     controller: registerController.passwordController,
+                    isObscure: true,
                   ),
                   SizedBox(height: 20),
                   MyButton(
