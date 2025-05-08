@@ -22,7 +22,7 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:  EdgeInsets.only(left: 50, right: 50, bottom: 10),
+      margin: EdgeInsets.only(left: 50, right: 50, bottom: 10),
       child: SizedBox(
         height: 50,
         width: double.infinity,
@@ -31,13 +31,13 @@ class _MyTextFieldState extends State<MyTextField> {
           obscureText: widget.isObscure && !_isPasswordVisible,
           decoration: InputDecoration(
             hintText: widget.hintText,
-            fillColor:  Color(0xFFE4E5E9),
+            fillColor: Color(0xFFE4E5E9),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide.none,
             ),
-            contentPadding:  EdgeInsets.symmetric(horizontal: 20),
+            contentPadding: EdgeInsets.symmetric(horizontal: 20),
             suffixIcon: widget.isObscure
                 ? IconButton(
                     icon: Icon(
