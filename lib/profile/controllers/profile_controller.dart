@@ -19,7 +19,7 @@ class ProfileController extends GetxController {
     if (response['success']) {
       userName.value = response['data']['name'] ?? 'Guest';
       email.value = response['data']['email'] ?? '';
-      imageUrl.value = response['data']['email'] ?? '';
+      imageUrl.value = response['data']['img'] ?? '';
       await fetchUserInfo(); //iki ben kesimpen kyk shared prefance
     } else {
       print('Error user info: ${response['message']}');
