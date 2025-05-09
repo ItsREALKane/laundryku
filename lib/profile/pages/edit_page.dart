@@ -1,26 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundryku/profile/controllers/edit_controller.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_text.dart';
 import 'package:laundryku/widget/my_text_field.dart';
 
-class ProfileEditPage extends StatefulWidget {
-  const ProfileEditPage({super.key});
+class ProfileEditPage extends StatelessWidget {
+  final EditController editController = Get.put(EditController());
 
-  @override
-  State<ProfileEditPage> createState() => _ProfileEditPageState();
-}
-
-class _ProfileEditPageState extends State<ProfileEditPage> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _phoneController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +24,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
+                      onTap: () => Get.back(),
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -55,14 +41,23 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/image/coba.jpeg'),
-                ),
+                Obx(() {
+                  final imageUrl = editController.imageUrl.value;
+                  return CircleAvatar(
+                    radius: 50,
+                    backgroundImage: imageUrl.isNotEmpty
+                        ? (imageUrl.startsWith('http')
+                            ? NetworkImage(imageUrl)
+                            : FileImage(File(imageUrl))) as ImageProvider
+                        : const AssetImage('assets/image/default_profile.png'),
+                  );
+                }),
                 const SizedBox(height: 10),
                 MyButton(
                   text: 'Pilih Foto',
-                  onPressed: () {},
+                  onPressed: () async {
+                    await editController.pickImage();
+                  },
                   color: const Color(0xFF00ADB5),
                   width: 120,
                   height: 36,
@@ -84,7 +79,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                     ),
                     MyTextField(
                       hintText: 'user',
-                      controller: _usernameController,
+                      controller: editController.userName,
                     ),
                   ],
                 ),
@@ -102,15 +97,16 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       ),
                     ),
                     MyTextField(
-                      hintText: '08112071740',
-                      controller: _phoneController,
+                      hintText: '08123...',
+                      controller: editController.phone,
                     ),
                   ],
                 ),
                 const Spacer(),
                 MyButton(
                   text: 'SIMPAN',
-                  onPressed: () {
+                  onPressed: () async {
+                    await editController.saveProfile();
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Profil berhasil disimpan')),
                     );
@@ -120,7 +116,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   fontSize: 16,
                   height: 50,
                   width: 400,
-                  ),
+                ),
                 const SizedBox(height: 30),
               ],
             ),

@@ -15,7 +15,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   Get.put(LoginController()); // ← Ini penting!
-
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

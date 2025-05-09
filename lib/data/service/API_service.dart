@@ -165,6 +165,44 @@ class ApiService {
       return {'success': false, 'message': 'Error fetching user info: $e'};
     }
   }
+
+  //edit yo
+  Future<Map<String, dynamic>> editProfile({
+    required String name,
+    required String phone,
+    required String imgUrl,
+  }) async {
+    try {
+      final userId = await getUserId();
+      if (userId == null) {
+        return {
+          'success': false,
+          'message': 'User ID not found, please log in again.'
+        };
+      }
+
+      final response = await http.put(
+        Uri.parse('$baseUrl/users/$userId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode({
+          'name': name,
+          'phone': phone,
+          'img': imgUrl,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return {'success': true, 'message': 'Profile updated successfully'};
+      } else {
+        return {'success': false, 'message': 'Failed to update profile'};
+      }
+    } catch (e) {
+      return {'success': false, 'message': 'Error: $e'};
+    }
+  }
 }
 
 class ApiEndPoints {

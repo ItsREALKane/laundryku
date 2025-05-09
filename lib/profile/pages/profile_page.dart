@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundryku/profile/controllers/edit_controller.dart';
 import 'package:laundryku/profile/controllers/profile_controller.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_menu_item.dart';
@@ -7,6 +10,7 @@ import 'package:laundryku/widget/my_text.dart';
 
 class ProfilePage extends StatelessWidget {
   final ProfileController controller = Get.put(ProfileController());
+  final EditController editController = Get.put(EditController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +24,18 @@ class ProfilePage extends StatelessWidget {
               Center(
                 child: Column(
                   children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
-                        image: const DecorationImage(
-                          image: AssetImage('assets/image/coba.jpeg'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                    Obx(() {
+                      final imageUrl = editController.imageUrl.value;
+                      return CircleAvatar(
+                        radius: 50,
+                        backgroundImage: imageUrl.isNotEmpty
+                            ? (imageUrl.startsWith('http')
+                                ? NetworkImage(imageUrl)
+                                : FileImage(File(imageUrl))) as ImageProvider
+                            : const AssetImage(
+                                'assets/image/default_profile.png'),
+                      );
+                    }),
                     const SizedBox(height: 16),
                     Obx(() => MyText(
                           text: controller.userName.value,
