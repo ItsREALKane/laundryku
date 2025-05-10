@@ -24,7 +24,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ApiController controller = Get.put(ApiController());
   final ProfileController profileController = Get.put(ProfileController());
-  final EditController editController = Get.put(EditController());
 
   @override
   void initState() {
@@ -58,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                         Get.toNamed(MyappRoute.profilePage);
                       },
                       child: Obx(() {
-                        final imageUrl = editController.imageUrl.value;
+                        final imageUrl = profileController.imageUrl.value;
                         return Container(
                           height: 45,
                           width: 45,
