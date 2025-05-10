@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laundryku/auth/login/controllers/login_controller.dart';
 import 'package:laundryku/data/api_controller.dart';
+import 'package:laundryku/profile/controllers/edit_controller.dart';
 import 'package:laundryku/profile/controllers/profile_controller.dart';
 import 'package:laundryku/widget/my_home_quick_button.dart';
 import 'package:laundryku/widget/my_image_slider.dart';
@@ -21,6 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ApiController controller = Get.put(ApiController());
   final ProfileController profileController = Get.put(ProfileController());
+  final EditController editController = Get.put(EditController());
 
   @override
   void initState() {
@@ -51,12 +55,28 @@ class _HomePageState extends State<HomePage> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        Get.toNamed("/profile");
+                        Get.toNamed(MyappRoute.profilePage);
                       },
-                      child: const CircleAvatar(
-                        radius: 24,
-                        backgroundImage: AssetImage('assets/image/coba.jpeg'),
-                      ),
+                      child: Obx(() {
+                        final imageUrl = editController.imageUrl.value;
+                        return Container(
+                          height: 45,
+                          width: 45,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            image: DecorationImage(
+                              image: imageUrl.isNotEmpty
+                                  ? (imageUrl.startsWith('http')
+                                          ? NetworkImage(imageUrl)
+                                          : FileImage(File(imageUrl)))
+                                      as ImageProvider
+                                  : const AssetImage(
+                                      'assets/image/default_profile.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      }),
                     ),
                   ),
                   const SizedBox(height: 16),

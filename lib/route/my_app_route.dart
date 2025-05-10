@@ -134,8 +134,8 @@ class MyappRoute {
         name: MyappRoute.profilePage,
         page: () => ProfilePage(),
         binding: ProfileBinding(),
-        transition: Transition.fade,
-        transitionDuration: Duration(milliseconds: 450)),
+        transition: Transition.rightToLeft,
+        transitionDuration: Duration(milliseconds: 250)),
     GetPage(
         name: MyappRoute.profileSettingPage,
         page: () => ProfileSettingPage(),
