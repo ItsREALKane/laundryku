@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundryku/order/order/controllers/order_controller.dart';
+import 'package:laundryku/order/orderDetail/controllers/order_detail_controller.dart';
 import 'package:laundryku/route/my_app_route.dart';
 import 'package:laundryku/widget/my_order_card.dart';
 import 'package:laundryku/widget/my_search_bar.dart';
@@ -10,32 +12,7 @@ class OrderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final orders = [
-      OrderItem(
-        name: 'Bening Laundry',
-        status: 'Di cuci',
-        estimatedTime: '1-2 hari',
-        orderDate: '18/01/2024',
-        imagePath: 'assets/image/coba.jpeg',
-        actionIcon: Icons.edit_document,
-      ),
-      OrderItem(
-        name: 'Naruto Laundry',
-        status: 'Di cuci',
-        estimatedTime: '1-2 hari',
-        orderDate: '18/01/2024',
-        imagePath: 'assets/image/coba.jpeg',
-        actionIcon: Icons.iron_outlined,
-      ),
-      OrderItem(
-        name: 'Keren Laundry',
-        status: 'Di cuci',
-        estimatedTime: '1-2 hari',
-        orderDate: '18/01/2024',
-        imagePath: 'assets/image/coba.jpeg',
-        actionIcon: Icons.check_circle_outline,
-      ),
-    ];
+    final controller = Get.put(OrderController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -46,52 +23,74 @@ class OrderPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
-                onTap: () {
-                  Get.back();
-                },
+                onTap: () => Get.back(),
                 child: const Row(
                   children: [
                     Icon(Icons.arrow_back_ios, size: 18),
                     SizedBox(width: 2),
-                    Text(
-                      'Kembali',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    MyText(
+                      text: 'kembali',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
               const MyText(
-                text: "Pesanan saya",
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF000000),
-              ),
+                  text: "Pesanan saya",
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF000000)),
               const SizedBox(height: 16),
               const Search(),
               const SizedBox(height: 16),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: orders.length,
-                  padding: const EdgeInsets.symmetric(vertical: 2),
-                  itemBuilder: (context, index) {
-                    return MyOrderCard(
-                      name: orders[index].name,
-                      status: orders[index].status,
-                      estimatedTime: orders[index].estimatedTime,
-                      orderDate: orders[index].orderDate,
-                      imagePath: orders[index].imagePath,
-                      actionIcon: orders[index].actionIcon,
-                      onTap: () {
-                        Get.toNamed(MyappRoute.orderDetailPage);
-                      },
-                    );
-                  },
-                ),
-              ),
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return const Expanded(
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
+
+                final orders = controller.orders;
+
+                if (orders.isEmpty) {
+                  return const Expanded(
+                    child: Center(
+                      child: Text(
+                        'Tidak ada pesanan',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  );
+                }
+
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: orders.length,
+                    itemBuilder: (context, index) {
+                      final order = orders[index];
+                      return MyOrderCard(
+                        name: order.name,
+                        status: order.status,
+                        estimatedTime: "Estimasi?",
+                        orderDate: order.orderDate,
+                        imagePath: 'assets/image/coba.jpeg',
+                        actionIcon: Icons.description,
+                        onTap: () {
+                          Get.delete<OrderDetailController>();
+                          Get.toNamed(
+                            MyappRoute.orderDetailPage,
+                            arguments: orders[index],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                );
+              }),
             ],
           ),
         ),
