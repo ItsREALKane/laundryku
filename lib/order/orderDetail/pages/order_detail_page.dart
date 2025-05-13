@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundryku/order/orderDetail/controllers/order_detail_controller.dart';
 import 'package:laundryku/widget/my_laundry_info_card.dart';
 import 'package:laundryku/widget/my_text.dart';
 
 class OrderDetailPage extends StatelessWidget {
-  const OrderDetailPage({super.key});
+  OrderDetailPage({super.key});
+  final order = Get.put(OrderDetailController()).order;
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    print(
+        "Raw order date: ${order.orderDate} (${order.orderDate.runtimeType})");
     final imageHeight = screenHeight * 0.25;
     final cardHeight = 120.0;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           Container(
@@ -66,46 +69,42 @@ class OrderDetailPage extends StatelessWidget {
                                 ),
                                 SizedBox(height: 12),
                                 Container(
-                                  width: double.infinity,
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade200,
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 1,
-                                        spreadRadius: 2,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      _buildDetailRow("STATUS PESANAN",
-                                          "Di cuci", Color(0xFF00ADB5)),
-                                      const SizedBox(height: 12),
-                                      _buildDetailRow("NO. HP", "08112017140",
-                                          Color(0xFF00ADB5)),
-                                      const SizedBox(height: 12),
-                                      _buildDetailRow("INFO LAUNDRY",
-                                          "Pakaian 5KG", Color(0xFF00ADB5)),
-                                      const SizedBox(height: 12),
-                                      _buildDetailRow(
-                                          "ALAMAT",
-                                          "Mitra Kost, Jl. Bae-Besito, Besito Kulon, Jurang, Kec. Gebog, Kabupaten Kudus, Jawa Tengah 59333",
-                                          Color(0xFF00ADB5)),
-                                      const SizedBox(height: 12),
-                                      _buildDetailRow("TANGGAL", "18/01/2024",
-                                          Color(0xFF00ADB5)),
-                                      const SizedBox(height: 12),
-                                      _buildDetailRow("TOTAL", "Rp20.000",
-                                          Color(0xFF00ADB5)),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 170),
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 1,
+                                          spreadRadius: 2,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _buildDetailRow(
+                                            "STATUS PESANAN", order.status),
+                                        SizedBox(height: 12),
+                                        _buildDetailRow("NO. HP", order.phone),
+                                        SizedBox(height: 12),
+                                        _buildDetailRow(
+                                            "INFO PESANAN", order.infoPesanan),
+                                        SizedBox(height: 12),
+                                        _buildDetailRow(
+                                            "ALAMAT ANDA", order.alamat),
+                                        SizedBox(height: 12),
+                                        _buildDetailRow("TANGGAL PESANAN",
+                                            (order.orderDate).toString()),
+                                        SizedBox(height: 12),
+                                        _buildDetailRow(
+                                            "TOTAL", "Rp ${order.total}"),
+                                      ],
+                                    )),
+                                const SizedBox(height: 300),
                               ],
                             ),
                           ),
@@ -117,18 +116,16 @@ class OrderDetailPage extends StatelessWidget {
                       left: 60,
                       right: 60,
                       child: LaundryInfoCard(
-                        title: 'Bening Laundry',
-                        subtitle: 'Pakaian, Sprei, Tas, Boneka',
-                        services: const [
-                          LaundryService(
-                            name: 'Delivery',
-                            icon: Icons.local_shipping_outlined,
-                          ),
-                          LaundryService(
-                            name: 'Pick Up',
-                            icon: Icons.shopping_bag_outlined,
-                          ),
-                        ],
+                        title: order.name,
+                        subtitle: order.jasa,
+                        services: order.pengantaran
+                            .split(',')
+                            .map((e) => e.trim())
+                            .map((name) => LaundryService(
+                                  name: name,
+                                  icon: _getIconForService(name),
+                                ))
+                            .toList(),
                         backgroundColor: Colors.grey.shade100,
                         textColor: Colors.black,
                       ),
@@ -159,22 +156,36 @@ class OrderDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailRow(String label, String value, Color valueColor) {
+  IconData _getIconForService(String name) {
+    switch (name.toLowerCase()) {
+      case 'delivery':
+        return Icons.local_shipping_outlined;
+      case 'pick up':
+        return Icons.shopping_bag_outlined;
+      case 'antar':
+        return Icons.delivery_dining_outlined;
+      case 'ambil':
+        return Icons.storefront_outlined;
+      default:
+        return Icons.miscellaneous_services;
+    }
+  }
+
+  Widget _buildDetailRow(String label, String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         MyText(
           text: label,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          color: Colors.black54,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF00ADB5),
         ),
-        const SizedBox(height: 4),
         MyText(
           text: value,
           fontSize: 14,
-          fontWeight: FontWeight.w600,
-          color: valueColor,
+          fontWeight: FontWeight.w400,
+          color: Colors.grey.shade600,
         ),
       ],
     );
