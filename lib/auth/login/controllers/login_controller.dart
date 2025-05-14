@@ -39,20 +39,19 @@ class LoginController extends GetxController {
           var token = json['token'];
           final SharedPreferences prefs = await _prefs;
 
-          if (rememberMe.value) {
-            await prefs.setString('token', token);
-          }
+          await prefs.setString('token', token);
+
+          await prefs.setBool('remember_me', rememberMe.value);
 
           if (json['user_id'] != null) {
             await prefs.setInt('user_id', json['user_id']);
             await prefs.setString('user_name', json['name'] ?? '');
 
-            // simpan user ID ke service kalau perlu
+
             final apiService = ApiService();
             await apiService.saveUserId(json['user_id']);
             print("✅ User ID disimpen: ${json['user_id']}");
 
-            // Inisialisasi FavoriteController dengan user_id baru
             if (Get.isRegistered<FavoriteController>()) {
               Get.delete<FavoriteController>(); // buang yang lama
             }
@@ -85,12 +84,10 @@ class LoginController extends GetxController {
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // Clear token & user data
     await prefs.remove('token');
     await prefs.remove('user_id');
     await prefs.remove('user_name');
 
-    // Hapus dari memory controller
     if (Get.isRegistered<FavoriteController>()) {
       Get.find<FavoriteController>().favoriteList.clear();
       Get.delete<FavoriteController>();
