@@ -79,6 +79,8 @@ class FavoritePage extends StatelessWidget {
                             icon: const Icon(Icons.favorite, color: Colors.red),
                             onPressed: () {
                               favoriteController.toggleFavorite(laundry);
+                              favoriteController
+                                  .printToken(); // cetak token dari controller
                             },
                           ),
                         );
