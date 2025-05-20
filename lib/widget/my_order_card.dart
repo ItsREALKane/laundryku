@@ -49,7 +49,7 @@ class MyOrderCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
+                child: Image.network(
                   imagePath,
                   width: 80,
                   height: 80,
