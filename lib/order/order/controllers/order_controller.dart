@@ -15,24 +15,64 @@ class OrderItem {
   final int total;
   final String jasa;
   final String pengantaran;
+  final String img;
 
-  OrderItem({
-    required this.id,
-    required this.name,
-    required this.status,
-    required this.orderDate,
-    required this.phone,
-    required this.alamat,
-    required this.infoPesanan,
-    required this.total,
-    required this.jasa,
-    required this.pengantaran,
-  });
+  OrderItem(
+      {required this.id,
+      required this.name,
+      required this.status,
+      required this.orderDate,
+      required this.phone,
+      required this.alamat,
+      required this.infoPesanan,
+      required this.total,
+      required this.jasa,
+      required this.pengantaran,
+      required this.img});
 }
 
 class OrderController extends GetxController {
   var orders = <OrderItem>[].obs;
   var isLoading = false.obs;
+  var isNewestFirst = true.obs;
+  var startDate = Rxn<DateTime>();
+  var endDate = Rxn<DateTime>();
+
+  void resetDateRange() {
+    startDate.value = null;
+    endDate.value = null;
+  }
+
+  var selectedStatus = 'All'.obs;
+
+  List<OrderItem> get filteredOrders {
+    List<OrderItem> result = orders;
+
+    if (selectedStatus.value != 'All') {
+      result = result.where((o) => o.status == selectedStatus.value).toList();
+    }
+
+    if (startDate.value != null && endDate.value != null) {
+      result = result.where((o) {
+        final orderDate = DateTime.tryParse(o.orderDate);
+        return orderDate != null &&
+            orderDate
+                .isAfter(startDate.value!.subtract(const Duration(days: 1))) &&
+            orderDate.isBefore(endDate.value!.add(const Duration(days: 1)));
+      }).toList();
+    }
+
+    result.sort((a, b) {
+      final aDate = DateTime.tryParse(a.orderDate);
+      final bDate = DateTime.tryParse(b.orderDate);
+      if (aDate == null || bDate == null) return 0;
+      return isNewestFirst.value
+          ? bDate.compareTo(aDate)
+          : aDate.compareTo(bDate);
+    });
+
+    return result;
+  }
 
   @override
   void onInit() {
@@ -77,6 +117,8 @@ class OrderController extends GetxController {
           final pengantaran =
               laundry?.pengantaran ?? 'Pengantaran Tidak Diketahui';
 
+          final img = laundry?.img ?? 'assets/image/coba.jpeg';
+
           return OrderItem(
             id: order['id'],
             name: laundryName,
@@ -91,6 +133,7 @@ class OrderController extends GetxController {
                 0,
             jasa: jasa,
             pengantaran: pengantaran,
+            img: img,
           );
         }).toList();
       } else {

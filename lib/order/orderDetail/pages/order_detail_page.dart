@@ -23,8 +23,8 @@ class OrderDetailPage extends StatelessWidget {
           Container(
             height: imageHeight,
             width: double.infinity,
-            child: Image.asset(
-              'assets/image/bg.jpg',
+            child: Image.network(
+              order.img,
               fit: BoxFit.cover,
             ),
           ),
