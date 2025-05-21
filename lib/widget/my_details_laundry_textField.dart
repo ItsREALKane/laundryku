@@ -41,7 +41,7 @@ class MyDetailsLaundryTextfield extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Colors.red, width: 2),
+            borderSide: const BorderSide(color: Color(0xFF00ADB5), width: 2),
           ),
         ),
       ),

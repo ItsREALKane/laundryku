@@ -69,7 +69,7 @@ class ApiService {
       }
 
       final orderData = order.toJson();
-      orderData['antar_sendiri'] = order.antarSendiri ? 1 : 0;
+      orderData['antar_sendiri'] = (order.pengiriman == true) ? 1 : 0;
 
       print("Sending order data: $orderData");
 

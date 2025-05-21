@@ -11,7 +11,7 @@ class Order {
   final String alamat;
   final String waktuAmbil;
   final String catatan;
-  final bool antarSendiri;
+  final String pengiriman;
   final String nomorHp;
   final String namaLaundry;
 
@@ -26,12 +26,10 @@ class Order {
     required this.alamat,
     required this.waktuAmbil,
     required this.catatan,
-    required this.antarSendiri,
+    required this.pengiriman,
     required this.nomorHp,
     required this.namaLaundry,
   });
-
-
 
   Map<String, dynamic> toJson() {
     return {
@@ -45,7 +43,7 @@ class Order {
       'alamat': alamat,
       'waktu_ambil': waktuAmbil,
       'catatan': catatan,
-      'antar_sendiri': antarSendiri, // This will be converted to 0/1 in the API service
+      'pengiriman': pengiriman,
       'nomor_hp': nomorHp,
       'nama_laundry': namaLaundry,
     };
@@ -63,7 +61,7 @@ class Order {
       alamat: json['alamat'],
       waktuAmbil: json['waktu_ambil'],
       catatan: json['catatan'] ?? '',
-      antarSendiri: json['antar_sendiri'] == 1 || json['antar_sendiri'] == true,
+      pengiriman: json['pengiriman'],
       nomorHp: json['nomor_hp'],
       namaLaundry: json['nama_laundry'] ?? '',
     );

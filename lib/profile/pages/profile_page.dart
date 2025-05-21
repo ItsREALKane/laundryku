@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laundryku/profile/controllers/edit_controller.dart';
 import 'package:laundryku/profile/controllers/profile_controller.dart';
+import 'package:laundryku/route/my_app_route.dart';
 import 'package:laundryku/widget/my_button.dart';
 import 'package:laundryku/widget/my_menu_item.dart';
 import 'package:laundryku/widget/my_text.dart';
@@ -82,19 +83,19 @@ class ProfilePage extends StatelessWidget {
                       },
                     ),
                     const Divider(height: 1),
-                    MenuItem(
-                      icon: Icons.history,
-                      text: 'Riwayat Pesanan',
-                      onTap: () {
-                        Get.toNamed("/orderHistory");
-                      },
-                    ),
+                    // MenuItem(
+                    //   icon: Icons.history,
+                    //   text: 'Riwayat Pesanan',
+                    //   onTap: () {
+                    //     // Get.toNamed(MyappRoute.orderDetailPage);
+                    //   },
+                    // ),
                     const Divider(height: 1),
                     MenuItem(
                       icon: Icons.settings,
                       text: 'Pengaturan',
                       onTap: () {
-                        Get.toNamed("/profileSetting");
+                        Get.toNamed(MyappRoute.profileSettingPage);
                       },
                     ),
                   ],

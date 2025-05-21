@@ -66,7 +66,6 @@ class LaundryDetailsController extends GetxController {
   final pickupTimeController = TextEditingController();
   final notesController = TextEditingController();
 
-  final RxBool isSelfPickup = false.obs;
   final RxBool isLoading = false.obs;
   final Rx<int?> userId = Rx<int?>(null);
   final Rx<Laundry?> selectedLaundry = Rx<Laundry?>(null);
@@ -74,11 +73,22 @@ class LaundryDetailsController extends GetxController {
   final RxBool isLoadingPrices = true.obs;
   final RxList<PriceCategory> priceCategories = <PriceCategory>[].obs;
 
+  final RxBool isSelfPickup = true.obs;
+
+  void togglePickupMethod(bool value) {
+    isSelfPickup.value = value;
+    if (!value) {
+      // Kalau antar sendiri, kosongin waktu ambil
+      pickupTimeController.text = '';
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
     _loadUserId();
     fetchPriceDetails();
+    loadUserPhone();
   }
 
   @override
@@ -94,6 +104,17 @@ class LaundryDetailsController extends GetxController {
     final id = await _orderService.getUserId();
     userId.value = id;
     print('Loaded user ID in LaundryDetailsController: $id');
+  }
+
+  void loadUserPhone() async {
+    final apiService = ApiService();
+    final response = await apiService.getUserInfo();
+
+    if (response['success']) {
+      phoneController.text = response['data']['phone'] ?? '';
+    } else {
+      print("❌ Gagal ambil data user: ${response['message']}");
+    }
   }
 
   void setSelectedLaundry(Laundry laundry) {
@@ -119,7 +140,6 @@ class LaundryDetailsController extends GetxController {
     }
   }
 
-//price details
   Future<void> fetchPriceDetails() async {
     isLoadingPrices.value = true;
     try {
@@ -146,56 +166,52 @@ class LaundryDetailsController extends GetxController {
       isLoadingPrices.value = false;
     }
   }
+
   List<PriceCategory> getPriceByLaundryId(int laundryId) {
-    return priceCategories.where((category) => category.idLaundry == laundryId).toList();
+    return priceCategories
+        .where((category) => category.idLaundry == laundryId)
+        .toList();
   }
 
-  // Get prices for the selected laundry
   List<PriceCategory> getPrices() {
     if (selectedLaundry.value == null) return [];
     return getPriceByLaundryId(selectedLaundry.value!.id);
   }
 
-  // Get kiloan prices specifically
   List<PriceItem> getKiloanPrices() {
     final prices = getPrices();
     final kiloanCategory = prices.firstWhereOrNull(
-      (category) => category.jenisHarga.toLowerCase() == 'kiloan'
-    );
-    
+        (category) => category.jenisHarga.toLowerCase() == 'kiloan');
+
     if (kiloanCategory != null) {
       return kiloanCategory.detailHargas;
     }
     return [];
   }
 
-  // Get satuan prices specifically
   List<PriceItem> getSatuanPrices() {
     final prices = getPrices();
     final satuanCategory = prices.firstWhereOrNull(
-      (category) => category.jenisHarga.toLowerCase() == 'satuan'
-    );
-    
+        (category) => category.jenisHarga.toLowerCase() == 'satuan');
+
     if (satuanCategory != null) {
       return satuanCategory.detailHargas;
     }
     return [];
   }
+
   String formatPrice(String price) {
     try {
       double numPrice = double.parse(price);
       if (numPrice == numPrice.toInt()) {
-        return "Rp${numPrice.toInt().toString().replaceAllMapped(
-              RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}";
+        return "Rp${numPrice.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}";
       } else {
-        return "Rp${numPrice.toStringAsFixed(0).replaceAllMapped(
-              RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}";
+        return "Rp${numPrice.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}";
       }
     } catch (e) {
       return "Rp$price";
     }
   }
-
 
   bool validateForm() {
     if (phoneController.text.isEmpty) {
@@ -208,8 +224,10 @@ class LaundryDetailsController extends GetxController {
       return false;
     }
 
-    if (pickupTimeController.text.isEmpty) {
-      showErrorDialog('Waktu ambil laundry harus diisi');
+    if (isSelfPickup.value && pickupTimeController.text.isEmpty) {
+      // ambil sendiri harus isi waktu
+      showErrorDialog(
+          'Waktu pengambilan harus diisi jika Anda memilih ambil sendiri.');
       return false;
     }
 
@@ -255,9 +273,11 @@ class LaundryDetailsController extends GetxController {
         jenisPembayaran: 'sekali',
         tglLanggananBerakhir: formattedFutureDate,
         alamat: addressController.text,
-        waktuAmbil: pickupTimeController.text,
+        waktuAmbil: isSelfPickup.value
+            ? pickupTimeController.text
+            : '', // kosongkan kalau antar sendiri
         catatan: notesController.text,
-        antarSendiri: isSelfPickup.value,
+        pengiriman: isSelfPickup.value ? 'Ambil di Tempat' : 'Antar Sendiri',
         nomorHp: phoneController.text,
         namaLaundry: laundry.nama,
       );
@@ -294,8 +314,8 @@ class LaundryDetailsController extends GetxController {
         actions: [
           TextButton(
             onPressed: () {
-              Get.back(); 
-              Get.back(); 
+              Get.back();
+              Get.back();
             },
             child: const Text('OK', style: TextStyle(color: Color(0xFF00ADB5))),
           ),

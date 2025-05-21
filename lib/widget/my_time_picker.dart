@@ -48,30 +48,37 @@ class _MyTimePickerTextFieldState extends State<MyTimePickerTextField> {
       ),
       validator: widget.validator,
       onTap: () {
-        _showAlarmStyleTimePicker(context);
+        _showDateTimePicker(context);
       },
     );
   }
 
-  void _showAlarmStyleTimePicker(BuildContext context) {
-    selectedHour = 8;
-    selectedMinute = 0;
+  void _showDateTimePicker(BuildContext context) async {
+    DateTime initialDate = DateTime.now();
 
-    if (widget.controller.text.isNotEmpty) {
-      final parts = widget.controller.text.split(':');
-      if (parts.length == 2) {
-        selectedHour = int.tryParse(parts[0]) ?? selectedHour;
-        selectedMinute = int.tryParse(parts[1]) ?? selectedMinute;
-      }
-    }
+    // Step 1: pilih tanggal dulu
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickedDate == null) return; // batal pilih tanggal
+
+    // Simpan tanggal yang dipilih
+    DateTime selectedDate = pickedDate;
+
+    int selectedHour = 8;
+    int selectedMinute = 0;
 
     FixedExtentScrollController hourController =
         FixedExtentScrollController(initialItem: selectedHour);
-
     FixedExtentScrollController minuteController =
         FixedExtentScrollController(initialItem: selectedMinute);
 
-    showModalBottomSheet(
+    // Step 2: buka modal picker jam menit
+    await showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
@@ -104,19 +111,29 @@ class _MyTimePickerTextFieldState extends State<MyTimePickerTextField> {
                             size: 30,
                           ),
                         ),
-                        const MyText(
-                          text: 'Pilih Jam',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF00ADB5),
+                        const Text(
+                          'Pilih Jam',
+                          style: TextStyle(
+                              color: Color(0xFF00ADB5),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
                         ),
                         TextButton(
                           onPressed: () {
-                            final hour =
+                            // simpan tanggal + jam:menit di controller
+                            final dateStr = "${selectedDate.year.toString()}-"
+                                "${selectedDate.month.toString().padLeft(2, '0')}-"
+                                "${selectedDate.day.toString().padLeft(2, '0')}";
+                            final hourStr =
                                 selectedHour.toString().padLeft(2, '0');
-                            final minute =
+                            final minuteStr =
                                 selectedMinute.toString().padLeft(2, '0');
-                            widget.controller.text = '$hour:$minute';
+
+                            widget.controller.text =
+                                "$dateStr $hourStr:$minuteStr";
+
+                            widget.controller.text =
+                                "$dateStr $hourStr:$minuteStr";
                             Navigator.of(context).pop();
                           },
                           child: const Icon(
@@ -136,21 +153,21 @@ class _MyTimePickerTextFieldState extends State<MyTimePickerTextField> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: MyText(
-                            text: 'Jam',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF00ADB5),
+                          child: Text(
+                            'Jam',
                             textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF00ADB5)),
                           ),
                         ),
                         Expanded(
-                          child: MyText(
-                            text: 'Menit',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF00ADB5),
+                          child: Text(
+                            'Menit',
                             textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF00ADB5)),
                           ),
                         ),
                       ],
@@ -170,9 +187,17 @@ class _MyTimePickerTextFieldState extends State<MyTimePickerTextField> {
                             diameterRatio: 2.0,
                             physics: const FixedExtentScrollPhysics(),
                             children: List.generate(24, (index) {
-                              return _buildAlarmTimeItem(
-                                index.toString().padLeft(2, '0'),
-                                index == selectedHour,
+                              return Center(
+                                child: Text(
+                                  index.toString().padLeft(2, '0'),
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w500,
+                                    color: selectedHour == index
+                                        ? const Color(0xFF00ADB5)
+                                        : Colors.grey.shade400,
+                                  ),
+                                ),
                               );
                             }),
                             onSelectedItemChanged: (index) {
@@ -190,9 +215,17 @@ class _MyTimePickerTextFieldState extends State<MyTimePickerTextField> {
                             diameterRatio: 2.0,
                             physics: const FixedExtentScrollPhysics(),
                             children: List.generate(60, (index) {
-                              return _buildAlarmTimeItem(
-                                index.toString().padLeft(2, '0'),
-                                index == selectedMinute,
+                              return Center(
+                                child: Text(
+                                  index.toString().padLeft(2, '0'),
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w500,
+                                    color: selectedMinute == index
+                                        ? const Color(0xFF00ADB5)
+                                        : Colors.grey.shade400,
+                                  ),
+                                ),
                               );
                             }),
                             onSelectedItemChanged: (index) {
@@ -211,19 +244,6 @@ class _MyTimePickerTextFieldState extends State<MyTimePickerTextField> {
           },
         );
       },
-    );
-  }
-
-  Widget _buildAlarmTimeItem(String text, bool isSelected) {
-    return Container(
-      height: 70,
-      alignment: Alignment.center,
-      child: MyText(
-        text: text,
-        fontSize: 30,
-        fontWeight: FontWeight.w500,
-        color: isSelected ? const Color(0xFF00ADB5) : Colors.grey.shade400,
-      ),
     );
   }
 }

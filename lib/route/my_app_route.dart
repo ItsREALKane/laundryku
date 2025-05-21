@@ -56,7 +56,7 @@ class MyappRoute {
   static const profileEditPage = '/profileEdit';
 
   //order
-  static const orderhistoryPage = '/orderHistory';
+  // static const orderhistoryPage = '/orderHistory';
   static const orderPage = '/order';
   static const orderDetailPage = '/orderDetail';
 
@@ -153,11 +153,11 @@ class MyappRoute {
         page: () => OrderPage(),
         transition: Transition.native,
         transitionDuration: Duration(milliseconds: 450)),
-    GetPage(
-        name: MyappRoute.orderhistoryPage,
-        page: () => OrderHistoryPage(),
-        transition: Transition.native,
-        transitionDuration: Duration(milliseconds: 450)),
+    // GetPage(
+    //     name: MyappRoute.orderhistoryPage,
+    //     page: () => OrderHistoryPage(),
+    //     transition: Transition.native,
+    //     transitionDuration: Duration(milliseconds: 450)),
     GetPage(
         name: MyappRoute.orderDetailPage,
         page: () => OrderDetailPage(),
