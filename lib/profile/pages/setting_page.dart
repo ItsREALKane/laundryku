@@ -13,6 +13,11 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
   bool isDarkMode = false;
   bool isNotificationEnabled = false;
 
+  void logout() {
+    // Contoh: logout dan langsung ke halaman login (ganti dengan route login-mu)
+    Get.offAllNamed('/login'); // ganti '/login' sesuai route login kamu
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +101,26 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                         activeTrackColor: Colors.black54,
                       ),
                     ],
+                  ),
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      onPressed: logout,
+                      child: const MyText(
+                        text: 'Logout',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),

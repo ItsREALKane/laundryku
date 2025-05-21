@@ -92,11 +92,19 @@ class LaundryDetailsPage extends StatelessWidget {
                                   content: _buildLocationContent(alamat, nomor),
                                 ),
                                 const SizedBox(height: 12),
-                                MyDetailsLaundryTextfield(
-                                  hintText: 'No. Telpon',
-                                  controller: controller.phoneController,
-                                  keyboardType: TextInputType.phone,
+                                const SizedBox(height: 12),
+                                MyText(
+                                  text: 'Form Pesanan',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
                                 ),
+                                const SizedBox(height: 12),
+                                // MyDetailsLaundryTextfield(
+                                //   hintText: 'No. Telpon',
+                                //   controller: controller.phoneController,
+                                //   keyboardType: TextInputType.phone,
+                                // ),
                                 MyDetailsLaundryTextfield(
                                   hintText: 'Alamat',
                                   controller: controller.addressController,
@@ -107,25 +115,85 @@ class LaundryDetailsPage extends StatelessWidget {
                                   controller: controller.notesController,
                                   maxLines: 3,
                                 ),
-                                MyTimePickerTextField(
-                                  hintText: 'Waktu Ambil Laundry',
-                                  controller: controller.pickupTimeController,
-                                ),
+                                Obx(() {
+                                  return controller.isSelfPickup.value
+                                      ? Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            MyTimePickerTextField(
+                                              hintText:
+                                                  'Waktu Laundry Siap diambil',
+                                              controller: controller
+                                                  .pickupTimeController,
+                                              validator: (value) {
+                                                if (controller
+                                                    .isSelfPickup.value) {
+                                                  // jangan lupa sini juga
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Waktu pengambilan harus diisi';
+                                                  }
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ],
+                                        )
+                                      : const SizedBox.shrink();
+                                }),
                                 const SizedBox(height: 10),
-                                Obx(() => Row(
+                                Obx(() => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        MyText(
-                                          text: 'Antar sendiri',
+                                        const MyText(
+                                          text: "Metode Pengantaran",
                                           fontSize: 14,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                           color: Colors.black,
                                         ),
-                                        Switch(
-                                          value: controller.isSelfPickup.value,
-                                          onChanged: (val) =>
-                                              controller.toggleSelfPickup(val),
-                                          activeColor: const Color(0xFF00ADB5),
-                                          inactiveTrackColor: Colors.white,
+                                        const SizedBox(height: 8),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            border: Border.all(
+                                                color: Color(0xFF00ADB5)),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              CheckboxListTile(
+                                                title: const Text(
+                                                    "Ambil di Tempat Anda"),
+                                                value: controller
+                                                    .isSelfPickup.value,
+                                                activeColor: Color(0xFF00ADB5),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(18),
+                                                ),
+                                                onChanged: (val) => controller
+                                                    .togglePickupMethod(true),
+                                              ),
+                                              const Divider(
+                                                  height: 0,
+                                                  color: Color(0xFF00ADB5)),
+                                              CheckboxListTile(
+                                                title:
+                                                    const Text("Antar sediri"),
+                                                value: !controller
+                                                    .isSelfPickup.value,
+                                                activeColor: Color(0xFF00ADB5),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(18),
+                                                ),
+                                                onChanged: (val) => controller
+                                                    .togglePickupMethod(false),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     )),

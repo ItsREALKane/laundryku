@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class RegisterController extends GetxController {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -18,7 +19,8 @@ class RegisterController extends GetxController {
     try {
       if (usernameController.text.isEmpty ||
           emailController.text.isEmpty ||
-          passwordController.text.isEmpty) {
+          passwordController.text.isEmpty ||
+          phoneController.text.isEmpty) {
         Get.dialog(SimpleDialog(
           title: Text("Error"),
           children: [Text("Semua field harus diisi!")],
@@ -33,7 +35,8 @@ class RegisterController extends GetxController {
         'name': usernameController.text,
         'email': emailController.text.trim(),
         'password': passwordController.text,
-        'password_confirmation': passwordController.text // penting!
+        'password_confirmation': passwordController.text,
+        'phone': phoneController.text.trim(),
       };
 
       print("Register Body: $body");
@@ -61,7 +64,7 @@ class RegisterController extends GetxController {
 
           try {
             // Navigate setelah dialog ditutup
-            await Get.toNamed(MyappRoute.navbar);
+            await Get.toNamed(MyappRoute.loginPage);
             print('✅ Navigasi berhasil ke homePage');
           } catch (e) {
             print('❌ Navigasi gagal: $e');

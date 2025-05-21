@@ -53,35 +53,6 @@ class _LoginPageState extends State<LoginPage> {
                     controller: loginController.passwordController,
                     isObscure: true,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: Row(
-                      children: [
-                        Obx(() => Theme(
-                              data: ThemeData(
-                                checkboxTheme: CheckboxThemeData(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                ),
-                              ),
-                              child: Checkbox(
-                                value: loginController.rememberMe.value,
-                                onChanged: (val) => loginController
-                                    .rememberMe.value = val ?? false,
-                                activeColor: Color(0xFF00ADB5),
-                                checkColor: Colors.white,
-                              ),
-                            )),
-                        MyText(
-                          text: "Remember Me",
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black87,
-                        ),
-                      ],
-                    ),
-                  ),
                   SizedBox(height: 8),
                   MyButton(
                     text: "Login",

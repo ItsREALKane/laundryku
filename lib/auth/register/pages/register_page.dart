@@ -49,6 +49,10 @@ class RegisterPage extends StatelessWidget {
                     controller: registerController.emailController,
                   ),
                   MyTextField(
+                    hintText: "Nomor HP",
+                    controller: registerController.phoneController,
+                  ),
+                  MyTextField(
                     hintText: "Password",
                     controller: registerController.passwordController,
                     isObscure: true,
