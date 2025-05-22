@@ -47,7 +47,6 @@ class LoginController extends GetxController {
             await prefs.setInt('user_id', json['user_id']);
             await prefs.setString('user_name', json['name'] ?? '');
 
-
             final apiService = ApiService();
             await apiService.saveUserId(json['user_id']);
             print("✅ User ID disimpen: ${json['user_id']}");

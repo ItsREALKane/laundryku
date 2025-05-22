@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryku/data/service/API_service.dart';
 
@@ -40,11 +41,9 @@ class EditController extends GetxController {
   Future<void> saveProfile() async {
     final apiService = ApiService();
     final response = await apiService.editProfile(
-      name: userName.text,
-      phone: phone.text,
-      imgUrl: imageUrl.value 
-    );
-
+        name: userName.text, phone: phone.text, imgUrl: imageUrl.value);
+    print('response edit profile: $response');
+    Get.back();
     if (!response['success']) {
       await fetchUserInfo(); //iki ben kesimpen kyk shared prefen
       Get.snackbar('Error', response['message']);
