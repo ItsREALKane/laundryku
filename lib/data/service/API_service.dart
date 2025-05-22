@@ -141,7 +141,7 @@ class ApiService {
       }
 
       final response = await http.get(
-        Uri.parse('$baseUrl/users/$userId'),
+        Uri.parse('${ApiEndPoints.base}/users/$userId'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -181,27 +181,44 @@ class ApiService {
         };
       }
 
-      final response = await http.put(
-        Uri.parse('$baseUrl/users/$userId'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: jsonEncode({
-          'name': name,
-          'phone': phone,
-          'img': imgUrl,
-        }),
+      var request = http.MultipartRequest(
+        'POST', // atau 'PUT' tapi hati-hati, beberapa server gak support PUT dengan multipart
+        Uri.parse(
+            '$baseUrl/users/$userId?_method=PUT'), // pakai _method buat override
       );
+
+      request.fields['name'] = name;
+      request.fields['phone'] = phone;
+
+      if (imgUrl.isNotEmpty) {
+        request.files.add(await http.MultipartFile.fromPath('img', imgUrl));
+      }
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
         return {'success': true, 'message': 'Profile updated successfully'};
       } else {
-        return {'success': false, 'message': 'Failed to update profile'};
+        return {
+          'success': false,
+          'message': 'Failed to update profile ${response.statusCode}',
+        };
       }
     } catch (e) {
       return {'success': false, 'message': 'Error: $e'};
     }
+  }
+}
+
+Future<Map<String, dynamic>> getUserInfo(int userId) async {
+  final response = await http.get(
+    Uri.parse('${ApiEndPoints.base}/users/$userId'),
+  );
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception('Failed to fetch user info');
   }
 }
 

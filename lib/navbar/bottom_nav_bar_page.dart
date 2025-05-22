@@ -19,14 +19,12 @@ class _NavbarPageState extends State<BottomNavBarPage> {
   final List<Widget> _menus = [
     HomePage(),
     FavoritePage(),
-    PesanPage(),
     ProfilePage(),
   ];
 
   final List<IconData> _pageIcons = [
     Icons.home,
     Icons.bookmark,
-    Icons.message,
     Icons.person,
   ];
 
